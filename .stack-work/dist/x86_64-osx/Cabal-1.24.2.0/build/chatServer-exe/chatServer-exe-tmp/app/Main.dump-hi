@@ -1,10 +1,10 @@
 
 ==================== FINAL INTERFACE ====================
-2017-10-12 15:33:40.198974 UTC
+2017-10-12 20:04:39.851897 UTC
 
 interface main@main:Main 8002
-  interface hash: 696355edf63256e066846341d627f8fb
-  ABI hash: 71d43eb4e54d77e88be7295c60ca4e96
+  interface hash: 3919285e3a5adfd30fa0c23711102f47
+  ABI hash: e43bcbabf7ff304bff784d18cba7e74f
   export-list hash: 61dbe1656f7fe942ae002d88195eb33e
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: 79efd4ab875bc95bac44035ab18a79ae
@@ -28,7 +28,6 @@ family instance modules: base-4.9.1.0:Control.Applicative
                          base-4.9.1.0:GHC.Generics base-4.9.1.0:GHC.IO.Exception
                          base-4.9.1.0:GHC.TypeLits
 import  -/  base-4.9.1.0:Prelude 22dd289b8469a8fa8dc81cab7b237771
-import  -/  base-4.9.1.0:System.IO c9de64c5f5407c4cf1c52500c4d15200
 import  -/  chatServer-0.1.0.0@chatServer-0.1.0.0-4eBfc9FZjs9FLhAS9M409k:Lib 526b5597706f3e38836b1025a566a147
 import  -/  ghc-prim-0.5.0.0:GHC.Types 89f8de4f08018c9177c98d979eae0e45
 import  -/  network-2.6.3.2@network-2.6.3.2-IsLM4TXcLoRI0fmmBYVyQz:Network.Socket 52f9b9614bf018ecf5fec5f2570dad23
@@ -57,7 +56,7 @@ b99d39995cabdd871c753b65e0f362e8
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
   {- Arity: 6, Strictness: <L,U(U)><S,U><L,U><L,U(U)><S,U><S,U>,
      Inline: [0] -}
-1533749dae264eb7c341b592ead8943f
+20387969d14ed242f7090ba2015b5f73
   $wrunConn ::
     Network.Socket.Types.Socket
     -> GHC.Prim.State# GHC.Prim.RealWorld
@@ -68,7 +67,7 @@ b99d39995cabdd871c753b65e0f362e8
                    (w :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  case Foreign.C.String.withCStringLen1
                         @ GHC.Types.Int
-                        Main.runConn5
+                        Main.runConn2
                         (\ (ds :: (GHC.Ptr.Ptr Foreign.C.Types.CChar, GHC.Types.Int))
                            (eta1 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                          case ds of wild { (,) str len ->
@@ -81,12 +80,7 @@ b99d39995cabdd871c753b65e0f362e8
                         (<(GHC.Ptr.Ptr Foreign.C.Types.CChar, GHC.Types.Int)>_R
                          ->_R Sym (GHC.Types.N:IO[0] <GHC.Types.Int>_R))
                         w of ds1 { (#,#) ipv ipv1 ->
-                 case GHC.IO.Handle.Text.hPutStr2
-                        GHC.IO.Handle.FD.stdout
-                        Main.runConn2
-                        GHC.Types.True
-                        ipv of ds2 { (#,#) ipv2 ipv3 ->
-                 Network.Socket.close1 ww ipv2 } }) -}
+                 Network.Socket.close1 ww ipv }) -}
 22d19d89416d91271de884920674b81e
   main :: GHC.Types.IO ()
   {- Arity: 1, Strictness: <S,U>,
@@ -176,7 +170,7 @@ ce3b745c04b961134a730909c92f5fd4
                  case w of ww { Network.Socket.Types.MkSocket ww1 ww2 ww3 ww4 ww5 ->
                  case ww5 of ww6 { GHC.MVar.MVar ww7 ->
                  Main.$wmainLoop ww1 ww2 ww3 ww4 ww7 w1 } }) -}
-7325af5fe8a0f3affda640e525b5acef
+34541f9d90625577f0da607286b65b90
   runConn ::
     (Network.Socket.Types.Socket, Network.Socket.Types.SockAddr)
     -> GHC.Types.IO ()
@@ -186,7 +180,7 @@ ce3b745c04b961134a730909c92f5fd4
                   `cast`
                 (<(Network.Socket.Types.Socket, Network.Socket.Types.SockAddr)>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-6d20f535e01782bf03a2ba8c33748cf0
+ea9633d31bf656fdb5cc699a4d721e6c
   runConn1 ::
     (Network.Socket.Types.Socket, Network.Socket.Types.SockAddr)
     -> GHC.Prim.State# GHC.Prim.RealWorld
@@ -198,25 +192,8 @@ ce3b745c04b961134a730909c92f5fd4
                           Network.Socket.Types.SockAddr))
                    (w1 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  case w of ww { (,) ww1 ww2 -> Main.$wrunConn ww1 w1 }) -}
-bee8bbbdf5fbb29f87a690491179bc41
-  runConn2 :: GHC.Base.String
-  {- Unfolding: (GHC.Types.:
-                   @ GHC.Types.Char
-                   GHC.Show.shows6
-                   Main.runConn3) -}
-78370e3c7a4fdb9eb99210a73e3c1349
-  runConn3 :: GHC.Base.String
-  {- Unfolding: (GHC.Show.showLitString
-                   Main.runConn4
-                   (GHC.Types.:
-                      @ GHC.Types.Char
-                      GHC.Show.shows6
-                      (GHC.Types.[] @ GHC.Types.Char))) -}
-f0097337bf11bc26362f8ee9585ba0ae
-  runConn4 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "Hi\n"#) -}
-063321920debdae21a74910880adf39c
-  runConn5 :: [GHC.Types.Char]
+bf6b47a915367c6107fd8752435cce0c
+  runConn2 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "Hi There!\n"#) -}
 vectorised variables:
 vectorised tycons:
