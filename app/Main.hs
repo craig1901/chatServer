@@ -4,6 +4,7 @@ import System.IO
 import Control.Exception
 import Network.Socket
 import Control.Concurrent
+import Control.Monad (when)
 import Control.Monad.Fix (fix)
 
 main :: IO ()
@@ -12,7 +13,7 @@ main = do
     setSocketOption sock ReuseAddr 1 -- make reuseable, setSocketOption Socket SocketOption Int
     bind sock (SockAddrInet 4242 iNADDR_ANY) -- listen on TCP port 4242, bind Socket SockAddr
     listen sock 2 -- max 2 connections, listen Socket Int
-    channel <- newChannel --create channel
+    channel <- newChan --create channel
     _ <- forkIO $ fix $ \loop -> do
         (_,_) <- readChan channel
         loop
@@ -31,6 +32,7 @@ runConn (sock, _) channel msgNum = do
     let broadcast msg = writeChan channel (msgNum, msg)
     hdl <- socketToHandle sock ReadWriteMode
     hSetBuffering hdl NoBuffering
+
     hPutStrLn hdl "Hi, what's your name?"
     name <- fmap init (hGetLine hdl)
     broadcast ("--> " ++ name ++ " entered chat.")
@@ -44,18 +46,14 @@ runConn (sock, _) channel msgNum = do
         when (msgNum /= nextNum) $ hPutStrLn hdl line
         loop
 
-    handle <- (\(SomeException _) -> return ()) $ fix $ \loop -> do
+    handle (\(SomeException _) -> return ()) $ fix $ \loop -> do
         line <- fmap init (hGetLine hdl)
         case line of
-            -- if an exception is caught, send a message and break the loop
-            "quit" -> hPutStrLn hdl "Bye!"
-            -- else continue
-            _ -> broadcast(name ++ ":" ++ line) >> loop
-        killThread reader
-        broadcast ("<-- " ++ name ++ " left.")
-        hClose hdl
-    -- read lines from the socket and echo them back to the user
-    fix $ \loop -> do
-        line <- fmap init (hGetLine hdl)
-        broadcast line
-        loop
+             -- If an exception is caught, send a message and break the loop
+             "quit" -> hPutStrLn hdl "Bye!"
+             -- else, continue looping.
+             _      -> broadcast (name ++ ": " ++ line) >> loop
+
+    killThread reader                      -- kill after the loop ends
+    broadcast ("<-- " ++ name ++ " left.") -- make a final broadcast
+    hClose hdl                             -- close the handle
