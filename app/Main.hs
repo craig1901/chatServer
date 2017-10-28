@@ -29,14 +29,22 @@ mainLoop sock channel msgNum = do
 
 runConn :: (Socket, SockAddr) -> Chan Msg -> Int -> IO ()
 runConn (sock, _) channel msgNum = do
+    hPutStrLn msgNum
     let broadcast msg = writeChan channel (msgNum, msg)
     hdl <- socketToHandle sock ReadWriteMode
     hSetBuffering hdl NoBuffering
 
-    hPutStrLn hdl "Hi, what's your name?"
+    hPutStrLn hdl "JOIN CHATROOM: 1"
+    hPutStrLn hdl "CLIENT_IP: "
+    hPutStrLn hdl "PORT: 4242"
+    hPutStrLn hdl "CLIENT_NAME: "
     name <- fmap init (hGetLine hdl)
     broadcast ("--> " ++ name ++ " entered chat.")
-    hPutStrLn hdl ("Welcome " ++ name ++ "!")
+    hPutStrLn hdl "JOINED CHATROOM: 1"
+    hPutStrLn hdl "SERVER IP: ..."
+    hPutStrLn hdl "PORT: 4242"
+    hPutStrLn hdl "ROOM_REF: 3456"
+    hPutStrLn hdl "JOIN_ID: 876"
 
     commLine <- dupChan channel
 
