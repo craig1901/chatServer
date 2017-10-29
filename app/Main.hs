@@ -7,6 +7,17 @@ import Control.Concurrent
 import Control.Monad (when)
 import Control.Monad.Fix (fix)
 
+type Msg = (Int, String)
+-- type User = String
+-- type Connections = [User]
+-- type ChatRooms = [String]
+--
+-- addConnections :: User -> Connections
+-- addConnections user  = (_:user)
+--
+-- addRoom :: String -> [String]
+-- addRoom s = (_:s)
+
 main :: IO ()
 main = do
     sock <- socket AF_INET Stream 0 -- create socket Family SocketType Protocol Number
@@ -19,7 +30,6 @@ main = do
         loop
     mainLoop sock channel 0 -- pass socket and new channel into mainLoop
 
-type Msg = (Int, String)
 
 mainLoop :: Socket -> Chan Msg -> Int -> IO ()
 mainLoop sock channel msgNum = do
@@ -29,7 +39,6 @@ mainLoop sock channel msgNum = do
 
 runConn :: (Socket, SockAddr) -> Chan Msg -> Int -> IO ()
 runConn (sock, _) channel msgNum = do
-    hPutStrLn msgNum
     let broadcast msg = writeChan channel (msgNum, msg)
     hdl <- socketToHandle sock ReadWriteMode
     hSetBuffering hdl NoBuffering
