@@ -9,6 +9,7 @@ import Control.Monad.Fix (fix)
 
 main :: IO ()
 main = do
+    print "Starting Server..."
     sock <- socket AF_INET Stream 0 -- create socket Family SocketType Protocol Number
     setSocketOption sock ReuseAddr 1 -- make reuseable, setSocketOption Socket SocketOption Int
     bind sock (SockAddrInet 4242 iNADDR_ANY) -- listen on TCP port 4242, bind Socket SockAddr
@@ -24,6 +25,7 @@ type Msg = (Int, String)
 mainLoop :: Socket -> Chan Msg -> Int -> IO ()
 mainLoop sock channel msgNum = do
     connection <- accept sock -- accept a connection and handle it
+    print "Client connected!"
     forkIO (runConn connection channel msgNum)
     mainLoop sock channel $! msgNum + 1
 
@@ -57,3 +59,4 @@ runConn (sock, _) channel msgNum = do
     killThread reader                      -- kill after the loop ends
     broadcast ("<-- " ++ name ++ " left.") -- make a final broadcast
     hClose hdl                             -- close the handle
+    print "Client left :("

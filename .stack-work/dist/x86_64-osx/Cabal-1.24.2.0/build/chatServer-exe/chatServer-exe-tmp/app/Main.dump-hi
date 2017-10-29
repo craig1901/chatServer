@@ -1,10 +1,10 @@
 
 ==================== FINAL INTERFACE ====================
-2017-10-16 16:16:43.869763 UTC
+2017-10-29 14:06:46.500831 UTC
 
 interface main@main:Main 8002
-  interface hash: 36390c508f48faf827334fabafbbfc9c
-  ABI hash: 56e7227796f264f7d286fe317c1ed5da
+  interface hash: 16b7fa2295d5ac4cec1e074208526a51
+  ABI hash: 0aef306255ac137d52cf503c6ab54e82
   export-list hash: d915082c50710a4f783ebc1b39bf410f
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: 79efd4ab875bc95bac44035ab18a79ae
@@ -89,75 +89,80 @@ ca15df9bc0aeca894855af8add28a68a
      Inline: [0] -}
 f4c7da5d252b420bf9c5a099dc18276c
   type Msg = (GHC.Types.Int, GHC.Base.String)
-2df606db9811632ce35a0568d0e3bbcc
+6c4c3957e3adf0ebc01e6c57cc9134ef
   main :: GHC.Types.IO ()
   {- Arity: 1, Strictness: <S,U>,
      Unfolding: InlineRule (0, True, True)
                 Main.main1 `cast` (Sym (GHC.Types.N:IO[0] <()>_R)) -}
-37e24ddd3b55ec83ba18943b0f03fc07
+1f1d65bf84e9175f630a105b3d933015
   main1 ::
     GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
   {- Arity: 1, Strictness: <S,U>,
      Unfolding: (\ (s :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
+                 case GHC.IO.Handle.Text.hPutStr2
+                        GHC.IO.Handle.FD.stdout
+                        Main.main7
+                        GHC.Types.True
+                        s of ds1 { (#,#) ipv ipv1 ->
                  case Network.Socket.$wsocket
                         Network.Socket.Types.AF_INET
                         Network.Socket.Types.Stream
                         0#
-                        s of ds1 { (#,#) ipv ipv1 ->
-                 case ipv1 of ww { Network.Socket.Types.MkSocket ww1 ww2 ww3 ww4 ww5 ->
+                        ipv of ds2 { (#,#) ipv2 ipv3 ->
+                 case ipv3 of ww { Network.Socket.Types.MkSocket ww1 ww2 ww3 ww4 ww5 ->
                  case Network.Socket.$wsetSocketOption
                         ww1
                         Network.Socket.ReuseAddr
                         Main.main6
-                        ipv of ds2 { (#,#) ipv2 ipv3 ->
+                        ipv2 of ds3 { (#,#) ipv4 ipv5 ->
                  case ww5 of ww6 { GHC.MVar.MVar ww7 ->
                  case Network.Socket.$wbind
                         ww1
                         ww7
                         Main.main4
-                        ipv2 of ds3 { (#,#) ipv4 ipv5 ->
+                        ipv4 of ds4 { (#,#) ipv6 ipv7 ->
                  case Network.Socket.$wlisten
                         ww1
                         ww7
                         Main.main3
-                        ipv4 of ds4 { (#,#) ipv6 ipv7 ->
+                        ipv6 of ds5 { (#,#) ipv8 ipv9 ->
                  case GHC.Prim.newMVar#
                         @ GHC.Prim.RealWorld
                         @ (Control.Concurrent.Chan.ChItem (GHC.Types.Int, GHC.Base.String))
-                        ipv6 of ds { (#,#) ipv8 ipv9 ->
+                        ipv8 of ds { (#,#) ipv10 ipv11 ->
                  case GHC.Prim.newMVar#
                         @ GHC.Prim.RealWorld
                         @ (GHC.MVar.MVar
                              (Control.Concurrent.Chan.ChItem (GHC.Types.Int, GHC.Base.String)))
-                        ipv8 of ds5 { (#,#) ipv10 ipv11 ->
+                        ipv10 of ds6 { (#,#) ipv12 ipv13 ->
                  let {
                    hole :: GHC.MVar.MVar
                              (Control.Concurrent.Chan.ChItem (GHC.Types.Int, GHC.Base.String))
                      {- Strictness: m -}
                    = GHC.MVar.MVar
                        @ (Control.Concurrent.Chan.ChItem (GHC.Types.Int, GHC.Base.String))
-                       ipv9
+                       ipv11
                  } in
-                 case GHC.Prim.putMVar#
-                        @ GHC.Prim.RealWorld
-                        @ (GHC.MVar.MVar
-                             (Control.Concurrent.Chan.ChItem (GHC.Types.Int, GHC.Base.String)))
-                        ipv11
-                        hole
-                        ipv10 of s2# { DEFAULT ->
-                 case GHC.Prim.newMVar#
-                        @ GHC.Prim.RealWorld
-                        @ (GHC.MVar.MVar
-                             (Control.Concurrent.Chan.ChItem (GHC.Types.Int, GHC.Base.String)))
-                        s2# of ds6 { (#,#) ipv12 ipv13 ->
                  case GHC.Prim.putMVar#
                         @ GHC.Prim.RealWorld
                         @ (GHC.MVar.MVar
                              (Control.Concurrent.Chan.ChItem (GHC.Types.Int, GHC.Base.String)))
                         ipv13
                         hole
-                        ipv12 of s2#1 { DEFAULT ->
+                        ipv12 of s2# { DEFAULT ->
+                 case GHC.Prim.newMVar#
+                        @ GHC.Prim.RealWorld
+                        @ (GHC.MVar.MVar
+                             (Control.Concurrent.Chan.ChItem (GHC.Types.Int, GHC.Base.String)))
+                        s2# of ds7 { (#,#) ipv14 ipv15 ->
+                 case GHC.Prim.putMVar#
+                        @ GHC.Prim.RealWorld
+                        @ (GHC.MVar.MVar
+                             (Control.Concurrent.Chan.ChItem (GHC.Types.Int, GHC.Base.String)))
+                        ipv15
+                        hole
+                        ipv14 of s2#1 { DEFAULT ->
                  case GHC.Prim.fork#
                         @ (GHC.Types.IO ())
                         (\ (eta :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
@@ -168,10 +173,10 @@ f4c7da5d252b420bf9c5a099dc18276c
                            = \ (eta1 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                              case Control.Concurrent.Chan.$wreadChan
                                     @ (GHC.Types.Int, GHC.Base.String)
-                                    ipv11
                                     ipv13
-                                    eta1 of ds7 { (#,#) ipv14 ipv15 ->
-                             case ipv15 of wild { (,) ds8 ds9 -> x ipv14 } }
+                                    ipv15
+                                    eta1 of ds8 { (#,#) ipv16 ipv17 ->
+                             case ipv17 of wild { (,) ds9 ds10 -> x ipv16 } }
                          } in
                          GHC.Prim.catch#
                            @ ()
@@ -181,7 +186,7 @@ f4c7da5d252b420bf9c5a099dc18276c
                            eta)
                           `cast`
                         (Sym (GHC.Types.N:IO[0] <()>_R))
-                        s2#1 of ds7 { (#,#) ipv14 ipv15 ->
+                        s2#1 of ds8 { (#,#) ipv16 ipv17 ->
                  Main.$wmainLoop
                    ww1
                    ww2
@@ -190,10 +195,21 @@ f4c7da5d252b420bf9c5a099dc18276c
                    ww7
                    (Control.Concurrent.Chan.Chan
                       @ (GHC.Types.Int, GHC.Base.String)
-                      ipv11
-                      ipv13)
+                      ipv13
+                      ipv15)
                    Main.main2
-                   ipv14 } } } } } } } } } } } }) -}
+                   ipv16 } } } } } } } } } } } } }) -}
+fb3b1b12d265577615c5fda7d8b7edc7
+  main10 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Starting Server..."#) -}
+3e097c4654805d7c989e2f78d0ce4216
+  main11 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 1,
+     Unfolding: (GHC.TopHandler.runMainIO1
+                   @ ()
+                   Main.main1 `cast` (Sym (GHC.Types.N:IO[0] <()>_R))) -}
 089009f5a8b08b7d82494188ec931dc6
   main2 :: GHC.Types.Int
   {- HasNoCafRefs, Unfolding: (GHC.Types.I# 0#) -}
@@ -221,14 +237,22 @@ d49b476a789eb4a00111126d88a8e820
 1e5926b799ede3e39e77f50a7b1cca01
   main6 :: GHC.Types.Int
   {- HasNoCafRefs, Unfolding: (GHC.Types.I# 1#) -}
-afee8bd06c71406abe980acf5be860b3
-  main7 ::
-    GHC.Prim.State# GHC.Prim.RealWorld
-    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
-  {- Arity: 1,
-     Unfolding: (GHC.TopHandler.runMainIO1
-                   @ ()
-                   Main.main1 `cast` (Sym (GHC.Types.N:IO[0] <()>_R))) -}
+f49702aecca5e8414600cfef9a538275
+  main7 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.Types.:
+                   @ GHC.Types.Char
+                   GHC.Show.shows6
+                   Main.main8) -}
+e9d43ed6edbcce1da5c18a3d99a9b111
+  main8 :: GHC.Base.String
+  {- Unfolding: (GHC.Show.showLitString Main.main10 Main.main9) -}
+bab04aef0f39c317e0d77461ef2d176b
+  main9 :: [GHC.Types.Char]
+  {- HasNoCafRefs,
+     Unfolding: (GHC.Types.:
+                   @ GHC.Types.Char
+                   GHC.Show.shows6
+                   (GHC.Types.[] @ GHC.Types.Char)) -}
 eadea7f7152f38f9d2004f365f5f7316
   mainLoop ::
     Network.Socket.Types.Socket
