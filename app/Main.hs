@@ -8,8 +8,8 @@ import Control.Monad (when)
 import Control.Monad.Fix (fix)
 
 type Msg = (Int, String)
-type ChatName = String
-type MessageChannel = Chan Msg
+-- type ChatName = String
+-- type MessageChannel = Chan Msg
 -- type User = String
 -- type Connections = [User]
 -- type ChatRooms = [String]
@@ -21,6 +21,40 @@ type MessageChannel = Chan Msg
 -- addRoom s = (_:s)
 
 
+data Chat = Chat {  name :: String,
+                    chatChannel :: Chan Msg
+                  }
+
+newChat :: String -> Chan Msg -> IO Chat
+newChat chatName chan =
+
+    return Chat {      name = chatName,
+                chatChannel = chan
+          }
+
+addIfAbsent :: Chat -> [Chat] -> [Chat]
+-- addIfAbsent chat (x:[]) =  x ++ [chat]
+addIfAbsent chat ls = if isAlreadyChat (name chat) ls then ls
+                        else ls ++ [chat]
+
+getChatTwo :: String -> [Chat] -> IO Chat
+getChatTwo str [] = do
+  print "making new chat"
+  c <- newChan
+  newChat str c
+
+getChatTwo str (x:xs) = do
+  if str == (name x) then return x
+  else getChatTwo str xs
+
+
+isAlreadyChat :: String -> [Chat] -> Bool
+isAlreadyChat str [] = False
+isAlreadyChat str (x:xs) =
+    if str == (name x) then True
+    else (isAlreadyChat str xs)
+
+
 main :: IO ()
 main = do
     print "Starting server..."
@@ -28,44 +62,34 @@ main = do
     setSocketOption sock ReuseAddr 1 -- make reuseable, setSocketOption Socket SocketOption Int
     bind sock (SockAddrInet 4242 iNADDR_ANY) -- listen on TCP port 4242, bind Socket SockAddr
     listen sock 2 -- max 2 connections, listen Socket Int
-    channel <- newChan --create channel
-    _ <- forkIO $ fix $ \loop -> do
-        (_,_) <- readChan channel
-        loop
-    mainLoop sock channel 0 -- pass socket and new channel into mainLoop
+    mainLoop sock []  0 -- pass socket and new channel into mainLoop
 
 
-data Chat = Chat {  name :: ChatName,
-                    channel :: MessageChannel,
-                    clientList :: [String]
-                  }
-
-newChat :: ChatName -> MessageChannel -> [String] -> IO Chat
-newChat chatName chan clients =
-
-    return Chat {      name = chatName,
-                channel = chan,
-                clientList = clients
-          }
-
-
-mainLoop :: Socket -> Chan Msg -> Int -> IO ()
-mainLoop sock channel msgNum = do
-    chat <- newChat "1" channel []
-    connection <- accept sock -- accept a connection and handle it
-    forkIO (runConn connection channel msgNum)
-    mainLoop sock channel $! msgNum + 1
-
-runConn :: (Socket, SockAddr) -> Chan Msg -> Int -> IO ()
-runConn (sock, _) channel msgNum = do
-    let broadcast msg = writeChan channel (msgNum, msg)
-    hdl <- socketToHandle sock ReadWriteMode
+mainLoop :: Socket -> [Chat] -> Int -> IO ()
+mainLoop sock chatList msgNum = do
+    (connection, _) <- accept sock -- accept a connection and handle it
+    print "New client connection."
+    print $ length chatList
+    hdl <- socketToHandle connection ReadWriteMode
     hSetBuffering hdl NoBuffering
+    hPutStr hdl "JOIN CHATROOM: "
+    chatName <- fmap init (hGetLine hdl)
+    -- let getChat =
+    chat <- getChatTwo chatName chatList
+    let newList = addIfAbsent chat chatList
+    print $ length newList
+    let c = chatChannel chat
+    forkIO (runConn hdl c chat msgNum)
+    mainLoop sock newList $! msgNum + 1
 
-    hPutStrLn hdl "JOIN CHATROOM: 1"
+runConn :: Handle -> Chan Msg -> Chat -> Int -> IO ()
+runConn hdl channel chat msgNum = do
+    let broadcast msg = writeChan channel (msgNum, msg)
+    -- hdl <- socketToHandle sock ReadWriteMode
+
     hPutStrLn hdl "CLIENT_IP: "
     hPutStrLn hdl "PORT: 4242"
-    hPutStrLn hdl "CLIENT_NAME: "
+    hPutStr hdl "CLIENT_NAME: "
     name <- fmap init (hGetLine hdl)
     broadcast ("--> " ++ name ++ " entered chat.")
     hPutStrLn hdl "JOINED CHATROOM: 1"
