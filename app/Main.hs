@@ -8,6 +8,8 @@ import Control.Monad (when)
 import Control.Monad.Fix (fix)
 
 type Msg = (Int, String)
+type ChatName = String
+type MessageChannel = Chan Msg
 -- type User = String
 -- type Connections = [User]
 -- type ChatRooms = [String]
@@ -18,8 +20,10 @@ type Msg = (Int, String)
 -- addRoom :: String -> [String]
 -- addRoom s = (_:s)
 
+
 main :: IO ()
 main = do
+    print "Starting server..."
     sock <- socket AF_INET Stream 0 -- create socket Family SocketType Protocol Number
     setSocketOption sock ReuseAddr 1 -- make reuseable, setSocketOption Socket SocketOption Int
     bind sock (SockAddrInet 4242 iNADDR_ANY) -- listen on TCP port 4242, bind Socket SockAddr
@@ -31,8 +35,23 @@ main = do
     mainLoop sock channel 0 -- pass socket and new channel into mainLoop
 
 
+data Chat = Chat {  name :: ChatName,
+                    channel :: MessageChannel,
+                    clientList :: [String]
+                  }
+
+newChat :: ChatName -> MessageChannel -> [String] -> IO Chat
+newChat chatName chan clients =
+
+    return Chat {      name = chatName,
+                channel = chan,
+                clientList = clients
+          }
+
+
 mainLoop :: Socket -> Chan Msg -> Int -> IO ()
 mainLoop sock channel msgNum = do
+    chat <- newChat "1" channel []
     connection <- accept sock -- accept a connection and handle it
     forkIO (runConn connection channel msgNum)
     mainLoop sock channel $! msgNum + 1
