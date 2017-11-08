@@ -1,10 +1,10 @@
 
 ==================== FINAL INTERFACE ====================
-2017-11-01 21:32:06.767993 UTC
+2017-11-08 18:55:19.340642 UTC
 
 interface main@main:Main 8002
-  interface hash: e8d1d10d8504ce4b9096adcc039192ae
-  ABI hash: 1188985efd3654d983ad6ddb2c647450
+  interface hash: 8417188f61b586c59d59232daeb23ee7
+  ABI hash: 6c70659011b13107347a02c2d07c9cd9
   export-list hash: 8541bd8fda42169cf727f61e8fe71706
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: 79efd4ab875bc95bac44035ab18a79ae
@@ -105,15 +105,6 @@ d6831ef04cb9301b090dfae6f7bb7ec7
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
   {- Arity: 8,
      Strictness: <L,U(U)><S,U><L,U><L,U(U)><S,U><L,U><L,U(U)><S,U>,
-     Inline: [0] -}
-012b38c88636ee345d44c02fb211f0ac
-  $wrunConn ::
-    GHC.IO.Handle.Types.Handle
-    -> Control.Concurrent.Chan.Chan Main.Msg
-    -> GHC.Types.Int
-    -> GHC.Prim.State# GHC.Prim.RealWorld
-    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
-  {- Arity: 4, Strictness: <S,U><L,1*U(U,U)><L,U(U)><S,U>,
      Inline: [0] -}
 434855a8fbd6136ff92cd949027cfbbf
   data Chat
@@ -323,14 +314,14 @@ bab04aef0f39c317e0d77461ef2d176b
                    (chan :: Control.Concurrent.Chan.Chan Main.Msg)
                    (eta :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  (# eta, Main.Chat chatName chan #)) -}
-f41c41d1440cf3e31581fd294c65286c
+6ed11b478af0095fa8bcd579a2b7735c
   runConn ::
     GHC.IO.Handle.Types.Handle
     -> Control.Concurrent.Chan.Chan Main.Msg
     -> Main.Chat
     -> GHC.Types.Int
     -> GHC.Types.IO ()
-  {- Arity: 5, Strictness: <S,U><L,1*U(U,U)><L,A><L,U(U)><S,U>,
+  {- Arity: 5, Strictness: <S,U><L,1*U(U,U)><L,U(U,A)><L,U(U)><S,U>,
      Unfolding: InlineRule (0, True, True)
                 Main.runConn1
                   `cast`
@@ -339,7 +330,7 @@ f41c41d1440cf3e31581fd294c65286c
                  ->_R <Main.Chat>_R
                  ->_R <GHC.Types.Int>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-29920b84ec835b1a3b56a1599077a9f7
+83eba8187f06e94bda4815cb76832e90
   runConn1 ::
     GHC.IO.Handle.Types.Handle
     -> Control.Concurrent.Chan.Chan Main.Msg
@@ -347,15 +338,8 @@ f41c41d1440cf3e31581fd294c65286c
     -> GHC.Types.Int
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
-  {- Arity: 5, Strictness: <S,U><L,1*U(U,U)><L,A><L,U(U)><S,U>,
-     Inline: INLINE[0],
-     Unfolding: InlineRule (5, True, True)
-                (\ (w :: GHC.IO.Handle.Types.Handle)
-                   (w1 :: Control.Concurrent.Chan.Chan Main.Msg)
-                   (w2 :: Main.Chat)
-                   (w3 :: GHC.Types.Int)
-                   (w4 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
-                 Main.$wrunConn w w1 w3 w4) -}
+  {- Arity: 5,
+     Strictness: <S,U><L,1*U(U,U)><L,U(U,A)><L,U(U)><S,U> -}
 vectorised variables:
 vectorised tycons:
 vectorised reused tycons:

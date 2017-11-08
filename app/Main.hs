@@ -87,16 +87,17 @@ runConn hdl channel chat msgNum = do
     let broadcast msg = writeChan channel (msgNum, msg)
     -- hdl <- socketToHandle sock ReadWriteMode
 
-    hPutStrLn hdl "CLIENT_IP: "
-    hPutStrLn hdl "PORT: 4242"
+    hPutStrLn hdl "CLIENT_IP: 0"
+    hPutStrLn hdl "PORT: 0"
     hPutStr hdl "CLIENT_NAME: "
-    name <- fmap init (hGetLine hdl)
-    broadcast ("--> " ++ name ++ " entered chat.")
-    hPutStrLn hdl "JOINED CHATROOM: 1"
-    hPutStrLn hdl "SERVER IP: ..."
+    clientName <- fmap init (hGetLine hdl)
+    broadcast ("--> " ++ clientName ++ " entered chat.")
+    hPutStrLn hdl ("JOINED CHATROOM: " ++ (name chat))
+    hPutStrLn hdl "SERVER IP: "
     hPutStrLn hdl "PORT: 4242"
-    hPutStrLn hdl "ROOM_REF: 3456"
-    hPutStrLn hdl "JOIN_ID: 876"
+    hPutStrLn hdl "ROOM_REF: "
+    hPutStrLn hdl "JOIN_ID: "
+    print $ clientName ++ " joined " ++ (name chat)
 
     commLine <- dupChan channel
 
@@ -112,8 +113,8 @@ runConn hdl channel chat msgNum = do
              -- If an exception is caught, send a message and break the loop
              "quit" -> hPutStrLn hdl "Bye!"
              -- else, continue looping.
-             _      -> broadcast (name ++ ": " ++ line) >> loop
+             _      -> broadcast (clientName ++ ": " ++ line) >> loop
 
-    killThread reader                      -- kill after the loop ends
-    broadcast ("<-- " ++ name ++ " left.") -- make a final broadcast
-    hClose hdl                             -- close the handle
+    -- killThread reader                      -- kill after the loop ends
+    broadcast ("<-- " ++ clientName ++ " left.") -- make a final broadcast
+    -- hClose hdl                             -- close the handle
