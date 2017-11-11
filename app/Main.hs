@@ -90,14 +90,13 @@ runConn hdl channel chat msgNum = do
     hPutStrLn hdl "CLIENT_IP: 0"
     hPutStrLn hdl "PORT: 0"
     hPutStr hdl "CLIENT_NAME: "
-    clientName <- fmap init (hGetLine hdl)
-    broadcast ("--> " ++ clientName ++ " entered chat.")
-    hPutStrLn hdl ("JOINED CHATROOM: " ++ (name chat))
+    name <- fmap init (hGetLine hdl)
+    broadcast ("--> " ++ name ++ " entered chat.")
+    hPutStrLn hdl "JOINED CHATROOM: " ++ (name chat)
     hPutStrLn hdl "SERVER IP: "
     hPutStrLn hdl "PORT: 4242"
     hPutStrLn hdl "ROOM_REF: "
     hPutStrLn hdl "JOIN_ID: "
-    print $ clientName ++ " joined " ++ (name chat)
 
     commLine <- dupChan channel
 
@@ -113,8 +112,8 @@ runConn hdl channel chat msgNum = do
              -- If an exception is caught, send a message and break the loop
              "quit" -> hPutStrLn hdl "Bye!"
              -- else, continue looping.
-             _      -> broadcast (clientName ++ ": " ++ line) >> loop
+             _      -> broadcast (name ++ ": " ++ line) >> loop
 
-    -- killThread reader                      -- kill after the loop ends
-    broadcast ("<-- " ++ clientName ++ " left.") -- make a final broadcast
-    -- hClose hdl                             -- close the handle
+    killThread reader                      -- kill after the loop ends
+    broadcast ("<-- " ++ name ++ " left.") -- make a final broadcast
+    hClose hdl                             -- close the handle
