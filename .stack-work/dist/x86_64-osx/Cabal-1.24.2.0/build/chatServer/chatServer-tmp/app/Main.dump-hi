@@ -1,11 +1,11 @@
 
 ==================== FINAL INTERFACE ====================
-2017-11-18 14:58:33.361404 UTC
+2017-11-20 20:06:29.74806 UTC
 
 interface main@main:Main 8002
-  interface hash: b0e6d9362fb885036ccc5d297e55abb5
-  ABI hash: 0bd8e4cd6b28850e9573ddcc3b038c0b
-  export-list hash: 114599c9f1e9ced75fa0c6bd9cfe9714
+  interface hash: 352959c5088841e690b987e98d3ef3c0
+  ABI hash: dd2d9470f52243500fbadbd5fed7d300
+  export-list hash: 26b572b8866eb2aadc3200346bbb70e5
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: b038a7c862dabf6c0c13835664a20da0
   sig of: Nothing
@@ -14,7 +14,7 @@ interface main@main:Main 8002
 exports:
   Main.handleConnections
   Main.main
-  Main.runClient
+  Main.runChatClient
 module dependencies:
 package dependencies: array-0.5.1.1@array-0.5.1.1 base-4.9.1.0
                       binary-0.8.3.0@binary-0.8.3.0
@@ -56,18 +56,17 @@ family instance modules: base-4.9.1.0:Control.Applicative
 import  -/  base-4.9.1.0:Control.Concurrent 2ee6a0a58489520b9a96d8fef10380fa
 import  -/  base-4.9.1.0:Control.Exception a76dd9666251322fe34dbcca3a0817bf
 import  -/  base-4.9.1.0:Control.Monad a6784c5dab0d75c63dabec5a37843f98
-import  -/  base-4.9.1.0:Control.Monad.Fix 1847625fb543f2f5c2510a02760c6b1a
+import  -/  base-4.9.1.0:Data.OldList 27987919d8da2f92e3f472ca81f730f8
 import  -/  base-4.9.1.0:GHC.Base c4231c43c07e46080a26bf94094c7aa1
 import  -/  base-4.9.1.0:GHC.Conc.Sync 8d0a228e5fc4d8c110495066f4d52ea1
 import  -/  base-4.9.1.0:GHC.IO.Handle ba98a5b34d78cbf48b41fe58a3735c69
 import  -/  base-4.9.1.0:GHC.IO.Handle.Text b65719f3b262b071ab1aabeb72fc9d8b
 import  -/  base-4.9.1.0:GHC.IO.Handle.Types 17aa0e2ab137800e3a31992d780c071f
 import  -/  base-4.9.1.0:GHC.IO.IOMode 2f5782f93b12a0d860d6d661b9fb405c
-import  -/  base-4.9.1.0:GHC.List ab8c4e523e6c479c549d3bcd5fc4a439
 import  -/  base-4.9.1.0:GHC.Num 00bfaa7b2f9d6084913c0697a8a49ec8
 import  -/  base-4.9.1.0:Prelude 22dd289b8469a8fa8dc81cab7b237771
 import  -/  base-4.9.1.0:System.IO c9de64c5f5407c4cf1c52500c4d15200
-import  -/  chatServer-0.1.0.0@chatServer-0.1.0.0-CKiPEewL8xJAxGM0oTBXAz:DataTypes 60dcf2d4e71ef9217a7e2646ab844e79
+import  -/  chatServer-0.1.0.0@chatServer-0.1.0.0-CKiPEewL8xJAxGM0oTBXAz:DataTypes d2cdb095aa6f38a05934931a0efcafd2
 import  -/  containers-0.5.7.1@containers-0.5.7.1:Data.Map 0fd5c8559af8bc4b6f38b9cf9ba5a467
 import  -/  containers-0.5.7.1@containers-0.5.7.1:Data.Map.Base 8b155a212edaca6c85bcefe65a8bc505
 import  -/  ghc-prim-0.5.0.0:GHC.Types 89f8de4f08018c9177c98d979eae0e45
@@ -259,118 +258,26 @@ ad6e113543fd4f86071846cb7654fb0d
 30fba9f5e1b5369e1afabb1610aa0ff1
   main9 :: GHC.Base.String
   {- Unfolding: (GHC.Show.showLitString Main.main11 Main.main10) -}
-eb93cef7deb60447d85d731f13125386
-  runClient ::
+d252365d678a713a0ce9fc28c778bd8b
+  runChatClient ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Types.Int -> DataTypes.ChatList -> GHC.Types.IO ()
-  {- Arity: 4, Strictness: <S,U><L,U(U)><L,1*U(U)><S,U>,
+  {- Arity: 4, Strictness: <S,U><L,U(U)><L,U(U)><S,U>,
      Unfolding: InlineRule (0, True, True)
-                Main.runClient1
+                Main.runChatClient1
                   `cast`
                 (<GHC.IO.Handle.Types.Handle>_R
                  ->_R <GHC.Types.Int>_R
                  ->_R <DataTypes.ChatList>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-ed6d19dedbb37098f8a40e67aa9ef941
-  runClient1 ::
+717fef1f11f389c099411513a279fbf4
+  runChatClient1 ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Types.Int
     -> DataTypes.ChatList
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
-  {- Arity: 4, Strictness: <S,U><L,U(U)><L,1*U(U)><S,U>,
-     Unfolding: (\ (hdl :: GHC.IO.Handle.Types.Handle)
-                   (n :: GHC.Types.Int)
-                   (rooms :: DataTypes.ChatList)
-                   (s :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
-                 case GHC.IO.Handle.Text.hPutStr2
-                        hdl
-                        Main.runClient4
-                        GHC.Types.False
-                        s of ds1 { (#,#) ipv ipv1 ->
-                 case GHC.IO.Handle.Internals.wantReadableHandle_1
-                        @ GHC.Base.String
-                        GHC.IO.Handle.Text.hGetLine4
-                        hdl
-                        GHC.IO.Handle.Text.hGetLine2
-                          `cast`
-                        (<GHC.IO.Handle.Types.Handle__>_R
-                         ->_R Sym (GHC.Types.N:IO[0] <GHC.Base.String>_R))
-                        ipv of ds { (#,#) ipv2 ipv3 ->
-                 case GHC.Prim.newTVar#
-                        @ (Control.Concurrent.STM.TChan.TList DataTypes.Message)
-                        @ GHC.Prim.RealWorld
-                        (Control.Concurrent.STM.TChan.TNil @ DataTypes.Message)
-                        ipv2 of ds2 { (#,#) ipv4 ipv5 ->
-                 let {
-                   hole :: GHC.Conc.Sync.TVar
-                             (Control.Concurrent.STM.TChan.TList DataTypes.Message)
-                     {- Strictness: m -}
-                   = GHC.Conc.Sync.TVar
-                       @ (Control.Concurrent.STM.TChan.TList DataTypes.Message)
-                       ipv5
-                 } in
-                 case GHC.Prim.newTVar#
-                        @ (GHC.Conc.Sync.TVar
-                             (Control.Concurrent.STM.TChan.TList DataTypes.Message))
-                        @ GHC.Prim.RealWorld
-                        hole
-                        ipv4 of ds3 { (#,#) ipv6 ipv7 ->
-                 case GHC.Prim.newTVar#
-                        @ (GHC.Conc.Sync.TVar
-                             (Control.Concurrent.STM.TChan.TList DataTypes.Message))
-                        @ GHC.Prim.RealWorld
-                        hole
-                        ipv6 of ds4 { (#,#) ipv8 ipv9 ->
-                 case GHC.IO.Handle.Text.hPutStr2
-                        hdl
-                        Main.runClient3
-                        GHC.Types.False
-                        ipv8 of ds5 { (#,#) ipv10 ipv11 ->
-                 case GHC.IO.Handle.Internals.wantReadableHandle_1
-                        @ GHC.Base.String
-                        GHC.IO.Handle.Text.hGetLine4
-                        hdl
-                        GHC.IO.Handle.Text.hGetLine2
-                          `cast`
-                        (<GHC.IO.Handle.Types.Handle__>_R
-                         ->_R Sym (GHC.Types.N:IO[0] <GHC.Base.String>_R))
-                        ipv10 of ds6 { (#,#) ipv12 ipv13 ->
-                 case ipv13 of wild {
-                   []
-                   -> case GHC.List.init2
-                      ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
-                      of {}
-                   : x xs
-                   -> case rooms of ww { GHC.Conc.Sync.TVar ww1 ->
-                      case DataTypes.$waddToRoom
-                             (DataTypes.Client
-                                (case ipv3 of wild1 {
-                                   [] -> GHC.List.init2 @ GHC.Types.Char
-                                   : x1 xs1 -> GHC.List.init1 @ GHC.Types.Char x1 xs1 })
-                                n
-                                hdl
-                                (Control.Concurrent.STM.TChan.TChan @ DataTypes.Message ipv7 ipv9))
-                             (GHC.List.init1 @ GHC.Types.Char x xs)
-                             ww1
-                             ipv12 of ds7 { (#,#) ipv14 ipv15 ->
-                      case GHC.IO.Handle.Text.hPutStr2
-                             hdl
-                             Main.runClient2
-                             GHC.Types.False
-                             ipv14 of ds8 { (#,#) ipv16 ipv17 ->
-                      case GHC.IO.Handle.hClose1 hdl ipv16 of ds9 { (#,#) ipv18 ipv19 ->
-                      (# ipv18, GHC.Tuple.() #) } } } } } } } } } } } }) -}
-12dbf3589de1ff116b9182f910c947ed
-  runClient2 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "Bye\n"#) -}
-58c539d25ef44ee2f21bc5f40a3cfda6
-  runClient3 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString#
-                   "You are now a client.\n"#) -}
-86575a93c1d4f2790a4a44170d6a581a
-  runClient4 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "Welcome!\n"#) -}
+  {- Arity: 4, Strictness: <S,U><L,U(U)><L,U(U)><S,U> -}
 vectorised variables:
 vectorised tycons:
 vectorised reused tycons:

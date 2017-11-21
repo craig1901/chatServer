@@ -35,11 +35,14 @@ addToRoom client roomName rooms = do
     case c of
         Nothing -> do
             room <- atomically $ do newChatRoom roomName client
-            hPutStr (handle client) "You just made a new room!\n"
             let newMap = Map.insert (roomRef room) room roomMap
             atomically $ do writeTVar rooms newMap
-            print "ChatList updated!"
-            
+            hPutStr (handle client) $ "JOINED_CHATROOM: " ++ (roomStr room) ++ "\n" ++ "SERVER_IP: 0\n" ++ "PORT: 0\n" ++ "ROOM_REF: " ++ (show $ roomRef room) ++ "\n" ++ "JOIN_ID: " ++ (show $ clientId client) ++ "\n"
+
         Just c -> do
+            clientMap <- atomically $ do readTVar (clients c)
+            let newMap = Map.insert (clientId client) client clientMap
+            atomically $ do writeTVar (clients c) newMap
+            hPutStr (handle client) $ "JOINED_CHATROOM: " ++ (roomStr c) ++ "\n" ++ "SERVER_IP: 0\n" ++ "PORT: 0\n" ++ "ROOM_REF: " ++ (show $ roomRef c) ++ "\n" ++ "JOIN_ID: " ++ (show $ clientId client) ++ "\n"
             print "Found it!"
             return ()
