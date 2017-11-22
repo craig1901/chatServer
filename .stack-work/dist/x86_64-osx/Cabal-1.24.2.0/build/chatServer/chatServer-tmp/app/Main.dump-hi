@@ -1,9 +1,9 @@
 
 ==================== FINAL INTERFACE ====================
-2017-11-22 21:02:25.662351 UTC
+2017-11-22 21:43:33.058678 UTC
 
 interface main@main:Main 8002
-  interface hash: 61bb4d195622b9feabfbff58c8bba278
+  interface hash: 8cdd36214fd641f8cc5d027123ee8f12
   ABI hash: edec30a220fbe70af5850a53f931cd7c
   export-list hash: be11a29d5000753ff9988f1122990cd4
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
@@ -74,7 +74,7 @@ import  -/  base-4.9.1.0:Prelude 22dd289b8469a8fa8dc81cab7b237771
 import  -/  base-4.9.1.0:System.Environment 08cb808e8e6a7821e6f8cfa76a977431
 import  -/  base-4.9.1.0:System.IO c9de64c5f5407c4cf1c52500c4d15200
 import  -/  base-4.9.1.0:Text.Read 75c59863e882ebaec4532e9465e2ee9b
-import  -/  chatServer-0.1.0.0@chatServer-0.1.0.0-CKiPEewL8xJAxGM0oTBXAz:DataTypes 74877f335520c884c2d44026733e3443
+import  -/  chatServer-0.1.0.0@chatServer-0.1.0.0-CKiPEewL8xJAxGM0oTBXAz:DataTypes 1936aa482543c469a5c8956c143a1a85
 import  -/  containers-0.5.7.1@containers-0.5.7.1:Data.Map 0fd5c8559af8bc4b6f38b9cf9ba5a467
 import  -/  containers-0.5.7.1@containers-0.5.7.1:Data.Map.Base 8b155a212edaca6c85bcefe65a8bc505
 import  -/  ghc-prim-0.5.0.0:GHC.Types 89f8de4f08018c9177c98d979eae0e45

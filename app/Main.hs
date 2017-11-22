@@ -18,12 +18,13 @@ runChat :: Client -> ChatList -> IO ()
 runChat client rooms = do
     print (clientName client ++ " is running.")
     -- fork off a thread for reading messages from client channel
-    forkIO $ fix $ \loop -> do
+    recv <- forkIO $ fix $ \loop -> do
         msg <- atomically $ do readTChan (channel client)
         handleMsgTypes msg client rooms
         loop
 
     sendMsg
+    killThread recv
     where
         sendMsg = forever $ do
             cmd <- hGetLine (clientHandle client)
@@ -48,6 +49,7 @@ runChat client rooms = do
                     case map words nextCmds of
                         [["PORT:", _], ["CLIENT_NAME:", name]] -> do
                             disconnectClient client rooms
+                            hClose (clientHandle client)
 
                 _ -> do
                     hPutStr (clientHandle client) "Try again.\n" >> sendMsg
@@ -68,6 +70,7 @@ runClient hdl n rooms = do
                         addToRoom client roomName rooms
                         -- TODO: Broadcast Message --
                         runChat client rooms
+                        hClose hdl
                     _ -> do
                         hPutStr hdl "Try again.\n" >> loop
             _ -> do
@@ -80,7 +83,7 @@ handleConnections sock msgNum chatRooms = do
     print "New client connection"
     hdl <- socketToHandle connection ReadWriteMode
     hSetBuffering hdl NoBuffering
-    forkIO (runClient hdl msgNum chatRooms)
+    forkFinally (runClient hdl msgNum chatRooms) (\_ -> do print "Client disconnected."; hClose hdl)
     handleConnections sock (msgNum + 1) chatRooms
 
 

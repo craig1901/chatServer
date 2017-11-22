@@ -54,10 +54,6 @@ disconnectClient client rooms = do
     let roomNames = Prelude.map (\room -> roomStr room) (Map.elems roomMap)
     print roomNames
     mapM_ (\name -> removeClient (hash name) client rooms) (roomNames)
-    print "closing handle"
-    hClose (clientHandle client)
-    print "handle closed."
-    return ()
 
 removeClient :: Int -> Client -> ChatList -> IO ()
 removeClient roomRef client rooms = do

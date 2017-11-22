@@ -1,10 +1,10 @@
 
 ==================== FINAL INTERFACE ====================
-2017-11-22 21:02:24.489168 UTC
+2017-11-22 21:36:29.105448 UTC
 
 interface chatServer-0.1.0.0-CKiPEewL8xJAxGM0oTBXAz:DataTypes 8002
-  interface hash: ca527caf70a9e956f1db245937474b5d
-  ABI hash: 74877f335520c884c2d44026733e3443
+  interface hash: ca6dbb841197dc0af7cb6fe64d7c0301
+  ABI hash: 1936aa482543c469a5c8956c143a1a85
   export-list hash: f577dfb35fb96762881efe3a0829fb53
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: f6624f22fcdd76ed0ac6625466e2d712
@@ -60,7 +60,6 @@ family instance modules: base-4.9.1.0:Control.Applicative
 import  -/  base-4.9.1.0:Data.Foldable 3e0b6967a1da89945d0e2d47266337a2
 import  -/  base-4.9.1.0:GHC.Base c4231c43c07e46080a26bf94094c7aa1
 import  -/  base-4.9.1.0:GHC.Conc.Sync 8d0a228e5fc4d8c110495066f4d52ea1
-import  -/  base-4.9.1.0:GHC.IO.Handle ba98a5b34d78cbf48b41fe58a3735c69
 import  -/  base-4.9.1.0:GHC.IO.Handle.Text b65719f3b262b071ab1aabeb72fc9d8b
 import  -/  base-4.9.1.0:GHC.IO.Handle.Types 17aa0e2ab137800e3a31992d780c071f
 import  -/  base-4.9.1.0:GHC.Show a027f5ac24879eaba752f44aa90fe511
@@ -209,7 +208,7 @@ b94eae238269f83d69c994c196711892
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
   {- Arity: 4, Strictness: <L,U(U,U(U),U,U)><S,U><S,U><S,U>,
      Inline: [0] -}
-6863162fe9fb33e55b6cc6aaba34e96d
+17ea8a43d7d9aab8a3f699fab6f9acf8
   $whandleMsgTypes ::
     DataTypes.Message
     -> GHC.IO.Handle.Types.Handle
@@ -240,7 +239,7 @@ b94eae238269f83d69c994c196711892
                                        (GHC.Base.++
                                           @ GHC.Types.Char
                                           msg
-                                          DataTypes.disconnectClient9))))))
+                                          DataTypes.disconnectClient3))))))
                         GHC.Types.False
                         w1
                    DataTypes.Error num msg
@@ -254,7 +253,7 @@ b94eae238269f83d69c994c196711892
                               (GHC.CString.unpackAppendCString#
                                  "\n\
                                  \MEssage: "#
-                                 (GHC.Base.++ @ GHC.Types.Char msg DataTypes.disconnectClient9))))
+                                 (GHC.Base.++ @ GHC.Types.Char msg DataTypes.disconnectClient3))))
                         GHC.Types.False
                         w1 }) -}
 43979c248c80dfce5166323ffe6a607b
@@ -262,7 +261,7 @@ b94eae238269f83d69c994c196711892
     GHC.Prim.Int#
     -> Data.Map.Base.Map GHC.Types.Int a -> GHC.Base.Maybe a
   {- Arity: 2, HasNoCafRefs, Strictness: <L,U><S,1*U>, Inline: [0] -}
-a2168d1a57250f10cac3f4e03b036623
+d1c2c5017bb533513819be23c93026b4
   $wsendMessage ::
     DataTypes.Message
     -> GHC.Prim.Int#
@@ -486,7 +485,7 @@ ed06fb11459f295504c7b4596bb41484
      Unfolding: InlineRule (1, True, False)
                 (\ (ds :: DataTypes.ChatRoom) ->
                  case ds of wild { DataTypes.ChatRoom ds1 ds2 ds3 -> ds3 }) -}
-d93ca0e05e6c025deb85d226fd821cc1
+0f215152a576a33fc10c7cb7079d2cb2
   disconnectClient ::
     DataTypes.Client -> DataTypes.ChatList -> GHC.Types.IO ()
   {- Arity: 3, Strictness: <L,U(A,U(U),U,U(A,U))><L,U(U)><S,U>,
@@ -496,7 +495,7 @@ d93ca0e05e6c025deb85d226fd821cc1
                 (<DataTypes.Client>_R
                  ->_R <DataTypes.ChatList>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-b58d75d69f5f49d7954170a01204f64e
+79d69ee665637e530814e21975481679
   disconnectClient1 ::
     DataTypes.Client
     -> DataTypes.ChatList
@@ -508,7 +507,7 @@ b58d75d69f5f49d7954170a01204f64e
                    (s :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  case GHC.IO.Handle.Text.hPutStr2
                         GHC.IO.Handle.FD.stdout
-                        DataTypes.disconnectClient16
+                        DataTypes.disconnectClient10
                         GHC.Types.True
                         s of ds1 { (#,#) ipv ipv1 ->
                  case GHC.Prim.atomically#
@@ -538,7 +537,7 @@ b58d75d69f5f49d7954170a01204f64e
                      case ds of wild {
                        [] -> (# eta, GHC.Tuple.() #)
                        : y ys
-                       -> case DataTypes.disconnectClient8
+                       -> case DataTypes.disconnectClient2
                                  (case Data.Hashable.Class.$w$cliftHashWithSalt
                                          @ GHC.Types.Char
                                          Data.Hashable.Class.$fHashableChar_$chashWithSalt
@@ -550,105 +549,27 @@ b58d75d69f5f49d7954170a01204f64e
                                  eta of ds4 { (#,#) ipv6 ipv7 ->
                           go ys ipv6 } }
                  } in
-                 case go roomNames ipv4 of ds4 { (#,#) ipv6 ipv7 ->
-                 case GHC.IO.Handle.Text.hPutStr2
-                        GHC.IO.Handle.FD.stdout
-                        DataTypes.disconnectClient5
-                        GHC.Types.True
-                        ipv6 of ds5 { (#,#) ipv8 ipv9 ->
-                 case client of wild { DataTypes.Client ds ds6 ds7 ds8 ->
-                 case GHC.IO.Handle.hClose1 ds7 ipv8 of ds9 { (#,#) ipv10 ipv11 ->
-                 case GHC.IO.Handle.Text.hPutStr2
-                        GHC.IO.Handle.FD.stdout
-                        DataTypes.disconnectClient2
-                        GHC.Types.True
-                        ipv10 of ds10 { (#,#) ipv12 ipv13 ->
-                 (# ipv12, GHC.Tuple.() #) } } } } } } } }) -}
-aa7711b5588bfab308fc9fec7052b388
-  disconnectClient10 :: DataTypes.Message
-  {- Strictness: m2,
-     Unfolding: (DataTypes.Error
-                   DataTypes.disconnectClient12
+                 go roomNames ipv4 } } }) -}
+13d84e207cdc55ad30f57e7f0d80cee1
+  disconnectClient10 :: GHC.Base.String
+  {- Unfolding: (GHC.Types.:
+                   @ GHC.Types.Char
+                   GHC.Show.shows6
                    DataTypes.disconnectClient11) -}
-f5630f10b1a8bdd7346a3b20a8b54dd5
-  disconnectClient11 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString#
-                   "Chatroom doesn't exist.\n\
-                   \\n"#) -}
-a5beeb2d6bea7659e26c0466ca7d50a0
+4d7f5d6d5904e136817a41d33b06341b
+  disconnectClient11 :: GHC.Base.String
+  {- Unfolding: (GHC.Show.showLitString
+                   DataTypes.disconnectClient12
+                   (GHC.Types.:
+                      @ GHC.Types.Char
+                      GHC.Show.shows6
+                      (GHC.Types.[] @ GHC.Types.Char))) -}
+1b3f7d05ef47725d78f61015591b95fe
   disconnectClient12 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "200"#) -}
-35a6c9c9c934c18949b7057745416d0f
-  disconnectClient13 :: GHC.Base.String
-  {- Unfolding: (GHC.Types.:
-                   @ GHC.Types.Char
-                   GHC.Show.shows6
-                   DataTypes.disconnectClient14) -}
-1c724cf1c7b69f9133ace45764a2f60a
-  disconnectClient14 :: GHC.Base.String
-  {- Unfolding: (GHC.Show.showLitString
-                   DataTypes.disconnectClient15
-                   (GHC.Types.:
-                      @ GHC.Types.Char
-                      GHC.Show.shows6
-                      (GHC.Types.[] @ GHC.Types.Char))) -}
-c2ad0873fc22ac7051636d08dd328f38
-  disconnectClient15 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "Removing..."#) -}
-330bb9a3aeb088acd860c619c7767e2a
-  disconnectClient16 :: GHC.Base.String
-  {- Unfolding: (GHC.Types.:
-                   @ GHC.Types.Char
-                   GHC.Show.shows6
-                   DataTypes.disconnectClient17) -}
-099bf00b09e9649b78006f1c0cc4a64f
-  disconnectClient17 :: GHC.Base.String
-  {- Unfolding: (GHC.Show.showLitString
-                   DataTypes.disconnectClient18
-                   (GHC.Types.:
-                      @ GHC.Types.Char
-                      GHC.Show.shows6
-                      (GHC.Types.[] @ GHC.Types.Char))) -}
-874fd7b10d69428a376ecc9e916b5458
-  disconnectClient18 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString#
                    "disconnecting client"#) -}
-89b488df686d67522193d31d1990c1bd
-  disconnectClient2 :: GHC.Base.String
-  {- Unfolding: (GHC.Types.:
-                   @ GHC.Types.Char
-                   GHC.Show.shows6
-                   DataTypes.disconnectClient3) -}
-58d2d5664334f97bba60b70dbe10f60b
-  disconnectClient3 :: GHC.Base.String
-  {- Unfolding: (GHC.Show.showLitString
-                   DataTypes.disconnectClient4
-                   (GHC.Types.:
-                      @ GHC.Types.Char
-                      GHC.Show.shows6
-                      (GHC.Types.[] @ GHC.Types.Char))) -}
-511cb752add6048f6663aadb6cf5d9fc
-  disconnectClient4 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "handle closed."#) -}
-2c4aa332ff5af06737df3809e378ef8d
-  disconnectClient5 :: GHC.Base.String
-  {- Unfolding: (GHC.Types.:
-                   @ GHC.Types.Char
-                   GHC.Show.shows6
-                   DataTypes.disconnectClient6) -}
-f1e32ea68ee069a6f932f5fca69b0ea3
-  disconnectClient6 :: GHC.Base.String
-  {- Unfolding: (GHC.Show.showLitString
-                   DataTypes.disconnectClient7
-                   (GHC.Types.:
-                      @ GHC.Types.Char
-                      GHC.Show.shows6
-                      (GHC.Types.[] @ GHC.Types.Char))) -}
-5afba9174d2537dd073c05bd906580f0
-  disconnectClient7 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "closing handle"#) -}
-1edea19644c2fe7050f4fc197dc9326a
-  disconnectClient8 ::
+8dc7c305116e7734ff866506a54899b5
+  disconnectClient2 ::
     GHC.Types.Int
     -> DataTypes.Client
     -> DataTypes.ChatList
@@ -662,7 +583,7 @@ f1e32ea68ee069a6f932f5fca69b0ea3
                    (s :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  case GHC.IO.Handle.Text.hPutStr2
                         GHC.IO.Handle.FD.stdout
-                        DataTypes.disconnectClient13
+                        DataTypes.disconnectClient7
                         GHC.Types.True
                         s of ds1 { (#,#) ipv ipv1 ->
                  case GHC.Prim.atomically#
@@ -696,7 +617,7 @@ f1e32ea68ee069a6f932f5fca69b0ea3
                                 tvar#
                                 (Control.Concurrent.STM.TChan.TCons
                                    @ DataTypes.Message
-                                   DataTypes.disconnectClient10
+                                   DataTypes.disconnectClient4
                                    ipv7)
                                 ipv6 of s2# { DEFAULT ->
                          case GHC.Prim.writeTVar#
@@ -755,21 +676,52 @@ f1e32ea68ee069a6f932f5fca69b0ea3
                                   GHC.Base.++
                                     @ GHC.Types.Char
                                     (GHC.Types.: @ GHC.Types.Char ww5 ww6)
-                                    DataTypes.disconnectClient9 } })) }))
+                                    DataTypes.disconnectClient3 } })) }))
                         GHC.Types.False
                         ipv6 } } } } } } }) -}
-0a5173f12d644ae411e53c12b4841d9c
-  disconnectClient9 :: [GHC.Types.Char]
+63b6631f0a91840be907b365282b965b
+  disconnectClient3 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString#
                    "\n\
                    \\n"#) -}
+67f58fc8619609b63ee40758f532c3fc
+  disconnectClient4 :: DataTypes.Message
+  {- Strictness: m2,
+     Unfolding: (DataTypes.Error
+                   DataTypes.disconnectClient6
+                   DataTypes.disconnectClient5) -}
+f8391d7c09b08de2e3c5a1c364c4e611
+  disconnectClient5 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "Chatroom doesn't exist.\n\
+                   \\n"#) -}
+7585ea127e7182230e1131cde149900d
+  disconnectClient6 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "200"#) -}
+8c135c1f6802d52f8a20301e28474c5b
+  disconnectClient7 :: GHC.Base.String
+  {- Unfolding: (GHC.Types.:
+                   @ GHC.Types.Char
+                   GHC.Show.shows6
+                   DataTypes.disconnectClient8) -}
+7220d2ef415e2d6d5d7c108cf37b815d
+  disconnectClient8 :: GHC.Base.String
+  {- Unfolding: (GHC.Show.showLitString
+                   DataTypes.disconnectClient9
+                   (GHC.Types.:
+                      @ GHC.Types.Char
+                      GHC.Show.shows6
+                      (GHC.Types.[] @ GHC.Types.Char))) -}
+60a9310c98ec7fb57cb9976dbb312e28
+  disconnectClient9 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Removing..."#) -}
 d95e9201dbb6c174f7738b4aedc4fcbb
   disconnectClient_go10 ::
     [[GHC.Types.Char]]
     -> Data.Map.Base.Map GHC.Types.Int DataTypes.ChatRoom
     -> [[GHC.Types.Char]]
   {- Arity: 2, HasNoCafRefs, Strictness: <L,1*U><S,1*U> -}
-043f9ab7a4b1735591de7324162dc022
+cb8cc7411a637383152f3225c045d05d
   handleMsgTypes ::
     DataTypes.Message
     -> DataTypes.Client -> DataTypes.ChatList -> GHC.Types.IO ()
@@ -781,7 +733,7 @@ d95e9201dbb6c174f7738b4aedc4fcbb
                  ->_R <DataTypes.Client>_R
                  ->_R <DataTypes.ChatList>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-1f2afbdb6a965f6f2d963b9a3f715205
+f60075769f6dacf84208c9ce8e4f8d79
   handleMsgTypes1 ::
     DataTypes.Message
     -> DataTypes.Client
@@ -896,14 +848,14 @@ d95e9201dbb6c174f7738b4aedc4fcbb
                          @ DataTypes.Message
                          ipv3
                          ipv5) #) } } }) -}
-bcfffb154e3eca314c2ea407ea700a74
+0aeeb88fe3f5e6fa3c9d2179ee38fabf
   removeClient ::
     GHC.Types.Int
     -> DataTypes.Client -> DataTypes.ChatList -> GHC.Types.IO ()
   {- Arity: 4,
      Strictness: <L,1*U(U)><L,U(A,U(U),U,1*U(A,U))><L,1*U(U)><S,U>,
      Unfolding: InlineRule (0, True, True)
-                DataTypes.disconnectClient8
+                DataTypes.disconnectClient2
                   `cast`
                 (<GHC.Types.Int>_R
                  ->_R <DataTypes.Client>_R
@@ -923,7 +875,7 @@ dcba4acc53c054eb7cfdde1432c605c9
      Unfolding: InlineRule (1, True, False)
                 (\ (ds :: DataTypes.ChatRoom) ->
                  case ds of wild { DataTypes.ChatRoom ds1 ds2 ds3 -> ds1 }) -}
-0bd52723959c21ad046d9845416f98ed
+c5ba0f0bf277eb96fd196492c6a8090b
   sendMessage ::
     DataTypes.Message
     -> GHC.Types.Int
@@ -940,7 +892,7 @@ dcba4acc53c054eb7cfdde1432c605c9
                  ->_R <DataTypes.ChatList>_R
                  ->_R <DataTypes.Client>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-c815c1caa23d4cc99117fe7907e2889d
+a8c52c23bbff953d81b5acc487bf7d27
   sendMessage1 ::
     DataTypes.Message
     -> GHC.Types.Int
@@ -967,11 +919,11 @@ f30cd2a2b0a6b40b494076183d5242c5
   {- Arity: 1, HasNoCafRefs,
      Unfolding: (\ (s :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  (# s, GHC.Tuple.() #)) -}
-201e05fe21d55428343419f0b4ad55d8
+55949545e97cde65c80a7935273ff229
   sendMessage3 :: DataTypes.Message
   {- Strictness: m2,
      Unfolding: (DataTypes.Error
-                   DataTypes.disconnectClient12
+                   DataTypes.disconnectClient6
                    DataTypes.sendMessage4) -}
 71127be5cd3498dda115268613c249b0
   sendMessage4 :: [GHC.Types.Char]
