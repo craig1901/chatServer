@@ -35,6 +35,7 @@ handleMsgTypes msg client rooms = do
         Error num msg -> send ("ERROR: " ++ num ++ "\nMEssage: " ++ msg ++ "\n\n")
     where
         send x = hPutStr (clientHandle client) x
+        print "sending message"
 
 sendMessage :: Message -> Int -> ChatList -> Client -> IO ()
 sendMessage msg ref rooms client = do
