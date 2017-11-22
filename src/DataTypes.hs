@@ -8,8 +8,8 @@ import System.IO
 
 
 data ChatRoom = ChatRoom {roomStr :: String, roomRef :: Int, clients :: TVar (Map Int Client)}
-data Client = Client  {clientName :: String, clientId :: Int, handle :: Handle, channel :: TChan Message}
-type Message = String
+data Client = Client  {clientName :: String, clientId :: Int, clientHandle :: Handle, channel :: TChan Message}
+data Message = Error String | Chat String String String
 type ChatList = TVar (Map Int ChatRoom)
 
 ------------------------------ Constructors ------------------------------------------------------
@@ -17,7 +17,7 @@ type ChatList = TVar (Map Int ChatRoom)
 newClient :: String -> Int -> Handle -> IO Client
 newClient name ident hdl = do
     chan <- newTChanIO
-    return Client { clientName = name, clientId = ident, handle = hdl, channel = chan}
+    return Client { clientName = name, clientId = ident, clientHandle = hdl, channel = chan}
 
 newChatRoom :: String -> Client -> STM ChatRoom
 newChatRoom str client = do
@@ -28,6 +28,18 @@ newChatRoom str client = do
 
 ------------------------------ Data Type Methods ------------------------------------------------------
 
+sendChatMessage :: Message -> Int -> ChatList -> Client -> IO ()
+sendChatMessage msg ref rooms client = do
+    roomMap <- atomically $ do readTVar rooms
+    let c = Map.lookup ref roomMap
+    case c of
+        Nothing -> do
+            hPutStr (clientHandle client) "ERROR"
+        Just c -> do
+            clientMap <- atomically $ do readTVar (clients c)
+            atomically $ do mapM_ (\c -> writeTChan (channel c) msg) (Map.elems clientMap)
+            print "Sent to Channel"
+
 addToRoom :: Client -> String -> ChatList -> IO ()
 addToRoom client roomName rooms = do
     roomMap <- atomically $ do readTVar rooms
@@ -37,12 +49,14 @@ addToRoom client roomName rooms = do
             room <- atomically $ do newChatRoom roomName client
             let newMap = Map.insert (roomRef room) room roomMap
             atomically $ do writeTVar rooms newMap
-            hPutStr (handle client) $ "JOINED_CHATROOM: " ++ (roomStr room) ++ "\n" ++ "SERVER_IP: 0\n" ++ "PORT: 0\n" ++ "ROOM_REF: " ++ (show $ roomRef room) ++ "\n" ++ "JOIN_ID: " ++ (show $ clientId client) ++ "\n"
+            print ((clientName client) ++ " joined room: " ++ (roomStr room))
+            hPutStr (clientHandle client) $ "JOINED_CHATROOM: " ++ (roomStr room) ++ "\n" ++ "SERVER_IP: 0\n" ++ "PORT: 0\n" ++ "ROOM_REF: " ++ (show $ roomRef room) ++ "\n" ++ "JOIN_ID: " ++ (show $ clientId client) ++ "\n"
 
         Just c -> do
             clientMap <- atomically $ do readTVar (clients c)
             let newMap = Map.insert (clientId client) client clientMap
             atomically $ do writeTVar (clients c) newMap
-            hPutStr (handle client) $ "JOINED_CHATROOM: " ++ (roomStr c) ++ "\n" ++ "SERVER_IP: 0\n" ++ "PORT: 0\n" ++ "ROOM_REF: " ++ (show $ roomRef c) ++ "\n" ++ "JOIN_ID: " ++ (show $ clientId client) ++ "\n"
+            hPutStr (clientHandle client) $ "JOINED_CHATROOM: " ++ (roomStr c) ++ "\n" ++ "SERVER_IP: 0\n" ++ "PORT: 0\n" ++ "ROOM_REF: " ++ (show $ roomRef c) ++ "\n" ++ "JOIN_ID: " ++ (show $ clientId client) ++ "\n"
             print "Found it!"
+            print ((clientName client) ++ " joined room: " ++ (roomStr c))
             return ()

@@ -2,17 +2,39 @@ module Main where
 
 import System.IO
 import Control.Exception
-import Network.Socket
+import Network.Socket hiding (Broadcast)
+import Control.Concurrent
 import Control.Concurrent.STM
 import Control.Concurrent.STM.TChan
 import Control.Concurrent.STM.TVar
+import Control.Concurrent.Async
 import qualified Data.Map as Map
-import Control.Concurrent
 import Control.Monad
 import DataTypes
 
-runChatClient :: Handle -> Int -> ChatList -> IO ()
-runChatClient hdl n rooms = do
+runChat :: Client -> ChatList -> IO ()
+runChat client rooms = do
+    print (clientName client ++ " is running.")
+    sendMsg
+    where
+        sendMsg = forever $ do
+            cmd <- hGetLine (clientHandle client)
+            case words cmd of
+                ["JOIN_CHATROOM:", roomName] -> do
+                    nextCmds <- replicateM 3 $ hGetLine (clientHandle client)
+                    case map words nextCmds of
+                        [["CLIENT_IP:", _], [ "PORT:", _], ["CLIENT_NAME:", name]] -> do
+                            print "join another.\n"
+                ["CHAT:", roomRef] -> do
+                    nextCmds <- replicateM 3 $ hGetLine (clientHandle client)
+                    case map words nextCmds of
+                        [["JOIN_ID:", cId], ["CLIENT_NAME:", name], ["MESSAGE:", msg]] -> do
+                            sendChatMessage (Chat roomRef (clientName client) msg) (read roomRef :: Int) rooms client
+                _ -> do
+                    hPutStr (clientHandle client) "Try again.\n" >> sendMsg
+
+runClient :: Handle -> Int -> ChatList -> IO ()
+runClient hdl n rooms = do
     loop
     return ()
 
@@ -26,8 +48,8 @@ runChatClient hdl n rooms = do
                     [["CLIENT_IP:", _], [ "PORT:", _], ["CLIENT_NAME:", name]] -> do
                         client <- newClient name n hdl
                         addToRoom client roomName rooms
-                        -- hPutStr hdl $ "You have joined room: " ++ roomName ++ "\n"
-                        
+                        -- TODO: Broadcast Message --
+                        runChat client rooms
                     _ -> do
                         hPutStr hdl "Try again.\n" >> loop
             _ -> do
@@ -40,7 +62,7 @@ handleConnections sock msgNum chatRooms = do
     print "New client connection"
     hdl <- socketToHandle connection ReadWriteMode
     hSetBuffering hdl NoBuffering
-    forkIO (runChatClient hdl msgNum chatRooms)
+    forkIO (runClient hdl msgNum chatRooms)
     handleConnections sock (msgNum + 1) chatRooms
 
 
