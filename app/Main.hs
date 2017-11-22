@@ -37,8 +37,8 @@ runChat client rooms = do
                 ["CHAT:", roomRef] -> do
                     nextCmds <- replicateM 3 $ hGetLine (clientHandle client)
                     case map words nextCmds of
-                        [["JOIN_ID:", cId], ["CLIENT_NAME:", name], ["MESSAGE:", msg]] -> do
-                            sendMessage (Chat roomRef name msg) (read roomRef :: Int) rooms client
+                        [["JOIN_ID:", cId], ["CLIENT_NAME:", name], ("MESSAGE:": msg), []] -> do
+                            sendMessage (Chat roomRef name (unwords msg)) (read roomRef :: Int) rooms client
                 ["LEAVE_CHATROOM:", roomRef] -> do
                     nextCmds <- replicateM 2 $ hGetLine (clientHandle client)
                     case map words nextCmds of
