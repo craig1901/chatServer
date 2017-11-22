@@ -47,6 +47,33 @@ sendMessage msg ref rooms client = do
             clientMap <- atomically $ do readTVar (clients c)
             atomically $ do mapM_ (\c -> writeTChan (channel c) msg) (Map.elems clientMap)
 
+disconnectClient :: Client -> ChatList -> IO ()
+disconnectClient client rooms = do
+    print "disconnecting client"
+    roomMap <- atomically $ do readTVar rooms
+    let roomNames = Prelude.map (\room -> roomStr room) (Map.elems roomMap)
+    print roomNames
+    mapM_ (\name -> removeClient (hash name) client rooms) (roomNames)
+    print "closing handle"
+    hClose (clientHandle client)
+    print "handle closed."
+    return ()
+
+removeClient :: Int -> Client -> ChatList -> IO ()
+removeClient roomRef client rooms = do
+    print "Removing..."
+    roomMap <- atomically $ do readTVar rooms
+    let c = Map.lookup roomRef roomMap
+    case c of
+        Nothing -> do
+            atomically $ do writeTChan (channel client) ( Error "200" "Chatroom doesn't exist.\n\n")
+        Just c -> do
+            let roomName = (roomStr c)
+            clientMap <- atomically $ do readTVar (clients c)
+            let newMap = Map.delete (clientId client) clientMap
+            atomically $ do writeTVar (clients c) newMap
+            hPutStr (clientHandle client) $ "LEFT_CHATROOM: " ++ (roomName) ++ "\nJOIN_ID: " ++ (show $ clientId client) ++ "\n\n"
+
 addToRoom :: Client -> String -> ChatList -> IO ()
 addToRoom client roomName rooms = do
     roomMap <- atomically $ do readTVar rooms
@@ -57,13 +84,13 @@ addToRoom client roomName rooms = do
             let newMap = Map.insert (roomRef room) room roomMap
             atomically $ do writeTVar rooms newMap
             print ((clientName client) ++ " joined room: " ++ (roomStr room))
-            hPutStr (clientHandle client) $ "JOINED_CHATROOM: " ++ (roomStr room) ++ "\n" ++ "SERVER_IP: 0\n" ++ "PORT: 0\n" ++ "ROOM_REF: " ++ (show $ roomRef room) ++ "\n" ++ "JOIN_ID: " ++ (show $ clientId client) ++ "\n"
+            hPutStr (clientHandle client) $ "JOINED_CHATROOM: " ++ (roomStr room) ++ "\n" ++ "SERVER_IP: 0\n" ++ "PORT: 0\n" ++ "ROOM_REF: " ++ (show $ roomRef room) ++ "\n" ++ "JOIN_ID: " ++ (show $ clientId client) ++ "\n\n"
 
         Just c -> do
             clientMap <- atomically $ do readTVar (clients c)
             let newMap = Map.insert (clientId client) client clientMap
             atomically $ do writeTVar (clients c) newMap
-            hPutStr (clientHandle client) $ "JOINED_CHATROOM: " ++ (roomStr c) ++ "\n" ++ "SERVER_IP: 0\n" ++ "PORT: 0\n" ++ "ROOM_REF: " ++ (show $ roomRef c) ++ "\n" ++ "JOIN_ID: " ++ (show $ clientId client) ++ "\n"
+            hPutStr (clientHandle client) $ "JOINED_CHATROOM: " ++ (roomStr c) ++ "\n" ++ "SERVER_IP: 0\n" ++ "PORT: 0\n" ++ "ROOM_REF: " ++ (show $ roomRef c) ++ "\n" ++ "JOIN_ID: " ++ (show $ clientId client) ++ "\n\n"
             print "Found it!"
             print ((clientName client) ++ " joined room: " ++ (roomStr c))
             return ()
