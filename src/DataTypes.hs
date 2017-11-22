@@ -80,13 +80,13 @@ addToRoom client roomName rooms = do
             let newMap = Map.insert (roomRef room) room roomMap
             atomically $ do writeTVar rooms newMap
             print ((clientName client) ++ " joined room: " ++ (roomStr room))
-            hPutStr (clientHandle client) $ "JOINED_CHATROOM: " ++ (roomStr room) ++  "\nSERVER_IP: 0" ++ "\nPORT: 0" ++ "\nROOM_REF: " ++ (show $ roomRef room) ++ "\nJOIN_ID: " ++ (show $ clientId client) ++ "\n\n"
+            hPutStr (clientHandle client) $ "JOINED_CHATROOM: " ++ (roomStr room) ++  "\nSERVER_IP: 0" ++ "\nPORT: 0.0.0.0" ++ "\nROOM_REF: " ++ (show $ roomRef room) ++ "\nJOIN_ID: " ++ (show $ clientId client) ++ "\n\n"
 
         Just c -> do
             clientMap <- atomically $ do readTVar (clients c)
             let newMap = Map.insert (clientId client) client clientMap
             atomically $ do writeTVar (clients c) newMap
-            hPutStr (clientHandle client) $ "JOINED_CHATROOM: " ++ (roomStr c) ++  "\nSERVER_IP: 0" ++ "\nPORT: 0" ++ "\nROOM_REF: " ++ (show $ roomRef c) ++ "\nJOIN_ID: " ++ (show $ clientId client) ++ "\n\n"
+            hPutStr (clientHandle client) $ "JOINED_CHATROOM: " ++ (roomStr c) ++  "\nSERVER_IP: 0" ++ "\nPORT: 0.0.0.0" ++ "\nROOM_REF: " ++ (show $ roomRef c) ++ "\nJOIN_ID: " ++ (show $ clientId client) ++ "\n\n"
             print "Found it!"
             print ((clientName client) ++ " joined room: " ++ (roomStr c))
             return ()
