@@ -35,10 +35,10 @@ handleMsgTypes msg client rooms = do
         Error num msg -> send ("ERROR: " ++ num ++ "\nMEssage: " ++ msg ++ "\n\n")
     where
         send x = hPutStr (clientHandle client) x
-        print "sending message"
 
 sendMessage :: Message -> Int -> ChatList -> Client -> IO ()
 sendMessage msg ref rooms client = do
+    print "sending..."
     roomMap <- atomically $ do readTVar rooms
     let c = Map.lookup ref roomMap
     case c of
@@ -69,6 +69,7 @@ removeClient roomRef client rooms = do
             clientMap <- atomically $ do readTVar (clients c)
             let newMap = Map.delete (clientId client) clientMap
             atomically $ do writeTVar (clients c) newMap
+            print "client left"
             hPutStr (clientHandle client) $ "LEFT_CHATROOM: " ++ (roomName) ++ "\nJOIN_ID: " ++ (show $ clientId client) ++ "\n\n"
 
 addToRoom :: Client -> String -> ChatList -> IO ()
