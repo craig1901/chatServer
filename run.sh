@@ -1,1 +1,1 @@
-stack exec chatServer
+stack exec chatServer $1

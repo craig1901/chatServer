@@ -9,7 +9,7 @@ import System.IO
 
 data ChatRoom = ChatRoom {roomStr :: String, roomRef :: Int, clients :: TVar (Map Int Client)}
 data Client = Client  {clientName :: String, clientId :: Int, clientHandle :: Handle, channel :: TChan Message}
-data Message = Error String | Chat String String String
+data Message = Chat String String String | Error String String
 type ChatList = TVar (Map Int ChatRoom)
 
 ------------------------------ Constructors ------------------------------------------------------
@@ -28,17 +28,24 @@ newChatRoom str client = do
 
 ------------------------------ Data Type Methods ------------------------------------------------------
 
-sendChatMessage :: Message -> Int -> ChatList -> Client -> IO ()
-sendChatMessage msg ref rooms client = do
+handleMsgTypes :: Message -> Client -> ChatList -> IO ()
+handleMsgTypes msg client rooms = do
+    case msg of
+        Chat roomRef name msg -> send ("CHAT: " ++ roomRef ++ "\nCLIENT_NAME: " ++ name ++ "\nMESSAGE: " ++ msg ++ "\n\n")
+        Error num msg -> send ("ERROR: " ++ num ++ "\nMEssage: " ++ msg ++ "\n\n")
+    where
+        send x = hPutStr (clientHandle client) x
+
+sendMessage :: Message -> Int -> ChatList -> Client -> IO ()
+sendMessage msg ref rooms client = do
     roomMap <- atomically $ do readTVar rooms
     let c = Map.lookup ref roomMap
     case c of
         Nothing -> do
-            hPutStr (clientHandle client) "ERROR"
+            atomically $ do writeTChan (channel client) ( Error "200" "Chatroom doesn't exist.")
         Just c -> do
             clientMap <- atomically $ do readTVar (clients c)
             atomically $ do mapM_ (\c -> writeTChan (channel c) msg) (Map.elems clientMap)
-            print "Sent to Channel"
 
 addToRoom :: Client -> String -> ChatList -> IO ()
 addToRoom client roomName rooms = do

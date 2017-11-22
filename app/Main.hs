@@ -1,6 +1,7 @@
 module Main where
 
 import System.IO
+import System.Environment
 import Control.Exception
 import Network.Socket hiding (Broadcast)
 import Control.Concurrent
@@ -10,11 +11,18 @@ import Control.Concurrent.STM.TVar
 import Control.Concurrent.Async
 import qualified Data.Map as Map
 import Control.Monad
+import Control.Monad.Fix (fix)
 import DataTypes
 
 runChat :: Client -> ChatList -> IO ()
 runChat client rooms = do
     print (clientName client ++ " is running.")
+    -- fork off a thread for reading messages from client channel
+    forkIO $ fix $ \loop -> do
+        msg <- atomically $ do readTChan (channel client)
+        handleMsgTypes msg client rooms
+        loop
+
     sendMsg
     where
         sendMsg = forever $ do
@@ -24,19 +32,18 @@ runChat client rooms = do
                     nextCmds <- replicateM 3 $ hGetLine (clientHandle client)
                     case map words nextCmds of
                         [["CLIENT_IP:", _], [ "PORT:", _], ["CLIENT_NAME:", name]] -> do
-                            print "join another.\n"
+                            addToRoom client roomName rooms
                 ["CHAT:", roomRef] -> do
                     nextCmds <- replicateM 3 $ hGetLine (clientHandle client)
                     case map words nextCmds of
                         [["JOIN_ID:", cId], ["CLIENT_NAME:", name], ["MESSAGE:", msg]] -> do
-                            sendChatMessage (Chat roomRef (clientName client) msg) (read roomRef :: Int) rooms client
+                            sendMessage (Chat roomRef name msg) (read roomRef :: Int) rooms client
                 _ -> do
                     hPutStr (clientHandle client) "Try again.\n" >> sendMsg
 
 runClient :: Handle -> Int -> ChatList -> IO ()
 runClient hdl n rooms = do
     loop
-    return ()
 
     where
     loop = do
@@ -68,11 +75,13 @@ handleConnections sock msgNum chatRooms = do
 
 main :: IO ()
 main = do
-  print "Starting server..."
-  sock <- socket AF_INET Stream 0
-  setSocketOption sock ReuseAddr 1
-  bind sock (SockAddrInet 4242 iNADDR_ANY)
-  chatRooms <- atomically $ newTVar Map.empty
-  listen sock 2
-  handleConnections sock 0 chatRooms
-  return ()
+    args <- getArgs
+    let port = head args
+    print "Starting server..."
+    sock <- socket AF_INET Stream 0
+    setSocketOption sock ReuseAddr 1
+    bind sock (SockAddrInet (read port :: PortNumber) iNADDR_ANY)
+    chatRooms <- atomically $ newTVar Map.empty
+    listen sock 2
+    handleConnections sock 0 chatRooms
+    return ()
