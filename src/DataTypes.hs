@@ -70,7 +70,7 @@ removeClient roomRef client rooms = do
             let newMap = Map.delete (clientId client) clientMap
             atomically $ do writeTVar (clients c) newMap
             print "client left"
-            hPutStr (clientHandle client) $ "LEFT_CHATROOM: " ++ (roomName) ++ "\nJOIN_ID: " ++ (show $ clientId client) ++ "\n\n"
+            hPutStr (clientHandle client) $ "LEFT_CHATROOM: " ++ (show roomRef) ++ "\nJOIN_ID: " ++ (show $ clientId client) ++ "\n"
 
 addToRoom :: Client -> String -> ChatList -> IO ()
 addToRoom client roomName rooms = do

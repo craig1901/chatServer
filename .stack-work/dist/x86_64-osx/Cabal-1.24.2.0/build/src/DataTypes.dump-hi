@@ -1,10 +1,10 @@
 
 ==================== FINAL INTERFACE ====================
-2017-11-23 13:36:47.37727 UTC
+2017-11-23 13:52:14.742514 UTC
 
 interface chatServer-0.1.0.0-CKiPEewL8xJAxGM0oTBXAz:DataTypes 8002
-  interface hash: 9908d363c9a6fbf3157c4b2cc78ddd1f
-  ABI hash: 4caaaf005d8d71f8810e54a6c34f8166
+  interface hash: 22cf79cc8495beb1575987def04c51f1
+  ABI hash: 84019b1c056081cf4bd820440b896753
   export-list hash: b7ad0ddab0b454f818f1bc24aa017e57
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: f6624f22fcdd76ed0ac6625466e2d712
@@ -368,7 +368,7 @@ b85bc515a0c886f64a657c8f89eb77a8
      Unfolding: InlineRule (1, True, False)
                 (\ (ds :: DataTypes.ChatRoom) ->
                  case ds of wild { DataTypes.ChatRoom ds1 ds2 ds3 -> ds3 }) -}
-7526d497c3921a9da87d2a377230a9f0
+7edb4c0349000fac48086eafc602f32f
   disconnectClient ::
     DataTypes.Client -> DataTypes.ChatList -> GHC.Types.IO ()
   {- Arity: 3, Strictness: <L,U(A,U(U),U,U(A,U))><L,U(U)><S,U>,
@@ -378,7 +378,7 @@ b85bc515a0c886f64a657c8f89eb77a8
                 (<DataTypes.Client>_R
                  ->_R <DataTypes.ChatList>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-9457ea520fe9901586c71a6edf887242
+ce434a8f0cdb4494c4086968a7a20abc
   disconnectClient1 ::
     DataTypes.Client
     -> DataTypes.ChatList
@@ -433,7 +433,7 @@ b85bc515a0c886f64a657c8f89eb77a8
                           go ys ipv6 } }
                  } in
                  go roomNames ipv4 } } }) -}
-d39205aed52609d1bc99507564d37050
+6690c7edfb49c2d301fc4acb1a033a1c
   disconnectClient2 ::
     GHC.Types.Int
     -> DataTypes.Client
@@ -441,7 +441,7 @@ d39205aed52609d1bc99507564d37050
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
   {- Arity: 4,
-     Strictness: <L,1*U(U)><L,U(A,U(U),U,1*U(A,U))><L,1*U(U)><S,U> -}
+     Strictness: <L,U(U)><L,U(A,U(U),U,1*U(A,U))><L,1*U(U)><S,U> -}
 8425e45d48f293cfa29a46d12272cf36
   disconnectClient3 :: GHC.Base.String
   {- Unfolding: (GHC.Types.:
@@ -601,12 +601,12 @@ bdc25bf788fef8fcafd63bab036039dc
                          @ DataTypes.Message
                          ipv3
                          ipv5) #) } } }) -}
-30a4ea8c2aa76c8885f03182f65e43b8
+e8d163c13e247114ff512c91e8d3813a
   removeClient ::
     GHC.Types.Int
     -> DataTypes.Client -> DataTypes.ChatList -> GHC.Types.IO ()
   {- Arity: 4,
-     Strictness: <L,1*U(U)><L,U(A,U(U),U,1*U(A,U))><L,1*U(U)><S,U>,
+     Strictness: <L,U(U)><L,U(A,U(U),U,1*U(A,U))><L,1*U(U)><S,U>,
      Unfolding: InlineRule (0, True, True)
                 DataTypes.disconnectClient2
                   `cast`
