@@ -66,10 +66,10 @@ removeClient roomRef client rooms = do
             atomically $ do writeTChan (channel client) ( Error "200" "Chatroom doesn't exist.\n\n")
         Just c -> do
             let roomName = (roomStr c)
+            let name = clientName client
             clientMap <- atomically $ do readTVar (clients c)
             sendMessage (Chat (show roomRef) name $ name ++ " has left this chatroom.") roomRef rooms client
             hPutStr (clientHandle client) $ "LEFT_CHATROOM: " ++ (show roomRef) ++ "\nJOIN_ID: " ++ (show $ clientId client) ++ "\n"
-            let name = clientName client
             let newMap = Map.delete (clientId client) clientMap
             atomically $ do writeTVar (clients c) newMap
             print "client left"
