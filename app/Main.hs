@@ -80,9 +80,25 @@ runClient hdl n rooms = do
                 hPutStr hdl "Please join a chat room 1st!\n" >> loop
 
 
+defaultService :: Socket -> IO ()
+defaultService sock = do
+    print "here we are!"
+    loop
+    where
+        loop = do
+            message <- recv sock 4096
+            case words message of
+                ["HELO", base] -> do
+                    send sock ("HELO " ++ base ++ "\nIP:134.226.44.255" ++"\nPort:8080" ++ "\nStudentId:14312495")
+                    print "responded to helo base"
+                    loop
+                _ -> do
+                    loop
+
 handleConnections :: Socket -> Int -> ChatList -> IO ()
 handleConnections sock msgNum chatRooms = do
     (connection, _) <- accept sock
+    forkIO (defaultService connection)
     print "New client connection"
     hdl <- socketToHandle connection ReadWriteMode
     hSetBuffering hdl NoBuffering
