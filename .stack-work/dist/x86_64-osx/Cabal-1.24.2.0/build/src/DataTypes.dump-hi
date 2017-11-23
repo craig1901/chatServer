@@ -1,11 +1,11 @@
 
 ==================== FINAL INTERFACE ====================
-2017-11-22 22:28:05.704995 UTC
+2017-11-23 12:43:18.372118 UTC
 
 interface chatServer-0.1.0.0-CKiPEewL8xJAxGM0oTBXAz:DataTypes 8002
-  interface hash: d7687930c7c7721164fd7f2017965193
-  ABI hash: d2c9bfc72983b9760505c62a10575b94
-  export-list hash: f577dfb35fb96762881efe3a0829fb53
+  interface hash: e918429ffe6b03745a80ca88645e80aa
+  ABI hash: 85d1b19e1cfe72fa34cfb87c331620d9
+  export-list hash: b7ad0ddab0b454f818f1bc24aa017e57
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: f6624f22fcdd76ed0ac6625466e2d712
   sig of: Nothing
@@ -22,7 +22,7 @@ exports:
   DataTypes.ChatList
   DataTypes.ChatRoom{DataTypes.ChatRoom clients roomRef roomStr}
   DataTypes.Client{DataTypes.Client channel clientHandle clientId clientName}
-  DataTypes.Message{DataTypes.Chat DataTypes.Error}
+  DataTypes.Message{DataTypes.Broadcast DataTypes.Chat DataTypes.Error}
 module dependencies:
 package dependencies: array-0.5.1.1@array-0.5.1.1 base-4.9.1.0*
                       binary-0.8.3.0@binary-0.8.3.0
@@ -85,6 +85,18 @@ import  -/  stm-2.4.4.1@stm-2.4.4.1-JQn4hNPyYjP5m9AcbI88Ve:Control.Concurrent.ST
                    (w1 :: Data.Map.Base.Map GHC.Types.Int a1) ->
                  case w of ww { GHC.Types.I# ww1 ->
                  DataTypes.$w$sgo10 @ a1 ww1 w1 }) -}
+49a33fce8938f84cdb49003eb695b8be
+  $tc'Broadcast :: GHC.Types.TyCon
+  {- HasNoCafRefs, Strictness: m,
+     Unfolding: (GHC.Types.TyCon
+                   14109100224380113357##
+                   8866011160047660538##
+                   DataTypes.$trModule
+                   DataTypes.$tc'Broadcast1) -}
+8a19c6c3437aa0aef1beb6557ac0e85a
+  $tc'Broadcast1 :: GHC.Types.TrName
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (GHC.Types.TrNameS "'Broadcast"#) -}
 90619999b342a238f4d3ecd8722d0feb
   $tc'Chat :: GHC.Types.TyCon
   {- HasNoCafRefs, Strictness: m,
@@ -197,7 +209,7 @@ ef5d58e6b3eca6624de1663a406441db
     -> Data.Map.Base.Map GHC.Types.Int a1
     -> Data.Map.Base.Map GHC.Types.Int a1
   {- Arity: 2, Strictness: <L,U><S,1*U>, Inline: [0] -}
-b94eae238269f83d69c994c196711892
+56942c34500ce78255ec3c575b5737fe
   $waddToRoom ::
     DataTypes.Client
     -> GHC.Base.String
@@ -206,9 +218,9 @@ b94eae238269f83d69c994c196711892
          (Data.Map.Base.Map GHC.Types.Int DataTypes.ChatRoom)
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
-  {- Arity: 4, Strictness: <L,U(U,U(U),U,U)><S,U><S,U><S,U>,
+  {- Arity: 4, Strictness: <L,U(U,U(U),U,U(U,U))><S,U><S,U><S,U>,
      Inline: [0] -}
-e7d5d93578fccf887676ef84736c2c50
+e2243573c0e7a7582e651f3b499ae80d
   $whandleMsgTypes ::
     DataTypes.Message
     -> GHC.IO.Handle.Types.Handle
@@ -255,37 +267,48 @@ e7d5d93578fccf887676ef84736c2c50
                                  \MEssage: "#
                                  (GHC.Base.++ @ GHC.Types.Char msg DataTypes.handleMsgTypes2))))
                         GHC.Types.False
+                        w1
+                   DataTypes.Broadcast name msg
+                   -> GHC.IO.Handle.Text.hPutStr2
+                        ww
+                        (GHC.Base.++
+                           @ GHC.Types.Char
+                           name
+                           (GHC.Base.++ @ GHC.Types.Char msg DataTypes.handleMsgTypes2))
+                        GHC.Types.False
                         w1 }) -}
 43979c248c80dfce5166323ffe6a607b
   $wpoly_go10 ::
     GHC.Prim.Int#
     -> Data.Map.Base.Map GHC.Types.Int a -> GHC.Base.Maybe a
   {- Arity: 2, HasNoCafRefs, Strictness: <L,U><S,1*U>, Inline: [0] -}
-d90a91a8cfa8200cb0947ad2b5aa2e09
+051bca54314e7c48cf45827f96d6cdb3
   type ChatList =
     GHC.Conc.Sync.TVar
       (Data.Map.Base.Map GHC.Types.Int DataTypes.ChatRoom)
-61c86dadde95afd8c7363199f7700060
+b46ad3f437f41357a4e6866a6cb9c776
   data ChatRoom
     = ChatRoom {roomStr :: GHC.Base.String,
                 roomRef :: GHC.Types.Int,
                 clients :: GHC.Conc.Sync.TVar
                              (Data.Map.Base.Map GHC.Types.Int DataTypes.Client)}
-53855cceaec749daa0275aaa3b871193
+353e67c0f08149c020e5dcb8824a4956
   data Client
     = Client {clientName :: GHC.Base.String,
               clientId :: GHC.Types.Int,
               clientHandle :: GHC.IO.Handle.Types.Handle,
               channel :: Control.Concurrent.STM.TChan.TChan DataTypes.Message}
-3f710e5df23375843c965117118840bf
+b54f068ce2ea0dada18a5f8aeee5f3be
   data Message
     = Chat GHC.Base.String GHC.Base.String GHC.Base.String
     | Error GHC.Base.String GHC.Base.String
-cb7167ac653840162a72298e072207a7
+    | Broadcast GHC.Base.String GHC.Base.String
+1339389255c44ffac9a9ef16564d1273
   addToRoom ::
     DataTypes.Client
     -> GHC.Base.String -> DataTypes.ChatList -> GHC.Types.IO ()
-  {- Arity: 4, Strictness: <L,U(U,U(U),U,U)><S,U><S(S),U(U)><S,U>,
+  {- Arity: 4,
+     Strictness: <L,U(U,U(U),U,U(U,U))><S,U><S(S),U(U)><S,U>,
      Unfolding: InlineRule (0, True, True)
                 DataTypes.addToRoom1
                   `cast`
@@ -293,14 +316,15 @@ cb7167ac653840162a72298e072207a7
                  ->_R <GHC.Base.String>_R
                  ->_R <DataTypes.ChatList>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-4b247b348fdc0174336a2dedf54f7ce8
+827ad7160c179c038bac01a1324d8ef3
   addToRoom1 ::
     DataTypes.Client
     -> GHC.Base.String
     -> DataTypes.ChatList
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
-  {- Arity: 4, Strictness: <L,U(U,U(U),U,U)><S,U><S(S),U(U)><S,U>,
+  {- Arity: 4,
+     Strictness: <L,U(U,U(U),U,U(U,U))><S,U><S(S),U(U)><S,U>,
      Inline: INLINE[0],
      Unfolding: InlineRule (4, True, False)
                 (\ (w :: DataTypes.Client)
@@ -309,7 +333,7 @@ cb7167ac653840162a72298e072207a7
                    (w3 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  case w2 of ww { GHC.Conc.Sync.TVar ww1 ->
                  DataTypes.$waddToRoom w w1 ww1 w3 }) -}
-01417254ede2e61248cfba5c22a83f73
+16678608105c4040e70b277d6189e202
   channel ::
     DataTypes.Client
     -> Control.Concurrent.STM.TChan.TChan DataTypes.Message
@@ -319,14 +343,14 @@ cb7167ac653840162a72298e072207a7
      Unfolding: InlineRule (1, True, False)
                 (\ (ds :: DataTypes.Client) ->
                  case ds of wild { DataTypes.Client ds1 ds2 ds3 ds4 -> ds4 }) -}
-990e4fc95496f086e4db20394c3aaa56
+acfab8860fcf94e0d14852de7d69a975
   clientHandle :: DataTypes.Client -> GHC.IO.Handle.Types.Handle
   RecSel Left DataTypes.Client
   {- Arity: 1, HasNoCafRefs, Strictness: <S(LLSL),1*U(A,A,1*U,A)>,
      Unfolding: InlineRule (1, True, False)
                 (\ (ds :: DataTypes.Client) ->
                  case ds of wild { DataTypes.Client ds1 ds2 ds3 ds4 -> ds3 }) -}
-3d69664b9f97ffa3762ad16671ef562a
+9ba8a7c6464362b9872c39f1d6898046
   clientId :: DataTypes.Client -> GHC.Types.Int
   RecSel Left DataTypes.Client
   {- Arity: 1, HasNoCafRefs,
@@ -334,14 +358,14 @@ cb7167ac653840162a72298e072207a7
      Unfolding: InlineRule (1, True, False)
                 (\ (ds :: DataTypes.Client) ->
                  case ds of wild { DataTypes.Client ds1 ds2 ds3 ds4 -> ds2 }) -}
-191a50f6d6fd7988a7f94b7ab9d150dc
+0affe9b1512f9998f9f288c8ec697fb7
   clientName :: DataTypes.Client -> GHC.Base.String
   RecSel Left DataTypes.Client
   {- Arity: 1, HasNoCafRefs, Strictness: <S(SLLL),1*U(1*U,A,A,A)>,
      Unfolding: InlineRule (1, True, False)
                 (\ (ds :: DataTypes.Client) ->
                  case ds of wild { DataTypes.Client ds1 ds2 ds3 ds4 -> ds1 }) -}
-ed06fb11459f295504c7b4596bb41484
+b85bc515a0c886f64a657c8f89eb77a8
   clients ::
     DataTypes.ChatRoom
     -> GHC.Conc.Sync.TVar
@@ -351,7 +375,7 @@ ed06fb11459f295504c7b4596bb41484
      Unfolding: InlineRule (1, True, False)
                 (\ (ds :: DataTypes.ChatRoom) ->
                  case ds of wild { DataTypes.ChatRoom ds1 ds2 ds3 -> ds3 }) -}
-d1fe21e8de0277b521726b94b616caff
+7526d497c3921a9da87d2a377230a9f0
   disconnectClient ::
     DataTypes.Client -> DataTypes.ChatList -> GHC.Types.IO ()
   {- Arity: 3, Strictness: <L,U(A,U(U),U,U(A,U))><L,U(U)><S,U>,
@@ -361,7 +385,7 @@ d1fe21e8de0277b521726b94b616caff
                 (<DataTypes.Client>_R
                  ->_R <DataTypes.ChatList>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-9e0fe4e22e2d1b33d64b667b99fa83f3
+9457ea520fe9901586c71a6edf887242
   disconnectClient1 ::
     DataTypes.Client
     -> DataTypes.ChatList
@@ -416,7 +440,7 @@ d1fe21e8de0277b521726b94b616caff
                           go ys ipv6 } }
                  } in
                  go roomNames ipv4 } } }) -}
-f2ea26dd08ec279632b463d6eae0ecc1
+d39205aed52609d1bc99507564d37050
   disconnectClient2 ::
     GHC.Types.Int
     -> DataTypes.Client
@@ -443,13 +467,13 @@ c0549a6a6ed8e102f756ee46ef084b88
   disconnectClient5 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString#
                    "disconnecting client"#) -}
-d95e9201dbb6c174f7738b4aedc4fcbb
+73f20373e2bc9d564c73c04637d5f5e1
   disconnectClient_go10 ::
     [[GHC.Types.Char]]
     -> Data.Map.Base.Map GHC.Types.Int DataTypes.ChatRoom
     -> [[GHC.Types.Char]]
   {- Arity: 2, HasNoCafRefs, Strictness: <L,1*U><S,1*U> -}
-39806be0e453e26ab0a45bac239da13a
+6e979ccea3c7c4409c904d51c231bb82
   handleMsgTypes ::
     DataTypes.Message
     -> DataTypes.Client -> DataTypes.ChatList -> GHC.Types.IO ()
@@ -461,7 +485,7 @@ d95e9201dbb6c174f7738b4aedc4fcbb
                  ->_R <DataTypes.Client>_R
                  ->_R <DataTypes.ChatList>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-1d2109f8047329cd18afae007451a7d2
+748977a00f13be312d49a419db516ebf
   handleMsgTypes1 ::
     DataTypes.Message
     -> DataTypes.Client
@@ -482,7 +506,7 @@ e83549d6679b5e4ca7745a9bbacceff7
   {- Unfolding: (GHC.CString.unpackCString#
                    "\n\
                    \\n"#) -}
-1c60a1741a3742f38b55dce2362ab36d
+da39b5999b409b070cf7ee04c3ea789f
   newChatRoom ::
     GHC.Base.String
     -> DataTypes.Client -> GHC.Conc.Sync.STM DataTypes.ChatRoom
@@ -493,7 +517,7 @@ e83549d6679b5e4ca7745a9bbacceff7
                 (<GHC.Base.String>_R
                  ->_R <DataTypes.Client>_R
                  ->_R Sym (GHC.Conc.Sync.N:STM[0] <DataTypes.ChatRoom>_R)) -}
-7e9e723d39c6307fa9941abeb2840497
+562b2c0521660dabd0280b686a9b09d6
   newChatRoom1 ::
     GHC.Base.String
     -> DataTypes.Client
@@ -521,7 +545,7 @@ e83549d6679b5e4ca7745a9bbacceff7
                       (GHC.Conc.Sync.TVar
                          @ (Data.Map.Base.Map GHC.Types.Int DataTypes.Client)
                          ipv1) #) }) -}
-2382186aa2dbed5f3e928711d8328832
+bdc25bf788fef8fcafd63bab036039dc
   newClient ::
     GHC.Base.String
     -> GHC.Types.Int
@@ -535,7 +559,7 @@ e83549d6679b5e4ca7745a9bbacceff7
                  ->_R <GHC.Types.Int>_R
                  ->_R <GHC.IO.Handle.Types.Handle>_R
                  ->_R Sym (GHC.Types.N:IO[0] <DataTypes.Client>_R)) -}
-0d526767c8f4801c5d226063c5df38c1
+549d188fe9eeab478297191f11c0465c
   newClient1 ::
     GHC.Base.String
     -> GHC.Types.Int
@@ -581,7 +605,7 @@ e83549d6679b5e4ca7745a9bbacceff7
                          @ DataTypes.Message
                          ipv3
                          ipv5) #) } } }) -}
-963f961d3da58c086ab82c7bf17b0c78
+30a4ea8c2aa76c8885f03182f65e43b8
   removeClient ::
     GHC.Types.Int
     -> DataTypes.Client -> DataTypes.ChatList -> GHC.Types.IO ()
@@ -594,21 +618,21 @@ e83549d6679b5e4ca7745a9bbacceff7
                  ->_R <DataTypes.Client>_R
                  ->_R <DataTypes.ChatList>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-9c7ae72998b51a689ac141483a533a9a
+d646eb2016845efaf59c989e5e02bcfc
   roomRef :: DataTypes.ChatRoom -> GHC.Types.Int
   RecSel Left DataTypes.ChatRoom
   {- Arity: 1, HasNoCafRefs, Strictness: <S(LSL),1*U(A,1*U(U),A)>m,
      Unfolding: InlineRule (1, True, False)
                 (\ (ds :: DataTypes.ChatRoom) ->
                  case ds of wild { DataTypes.ChatRoom ds1 ds2 ds3 -> ds2 }) -}
-dcba4acc53c054eb7cfdde1432c605c9
+29659b570672caffb328735e9395c24a
   roomStr :: DataTypes.ChatRoom -> GHC.Base.String
   RecSel Left DataTypes.ChatRoom
   {- Arity: 1, HasNoCafRefs, Strictness: <S(SLL),1*U(1*U,A,A)>,
      Unfolding: InlineRule (1, True, False)
                 (\ (ds :: DataTypes.ChatRoom) ->
                  case ds of wild { DataTypes.ChatRoom ds1 ds2 ds3 -> ds1 }) -}
-331ab255e729b4254393a1ad4140efe2
+c201f361a4c5c53855d359186c1ae8b5
   sendMessage ::
     DataTypes.Message
     -> GHC.Types.Int
@@ -625,7 +649,7 @@ dcba4acc53c054eb7cfdde1432c605c9
                  ->_R <DataTypes.ChatList>_R
                  ->_R <DataTypes.Client>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-7994a8b5c44e2a71382e21cba4bfb667
+159db0c5365d634235a6b9ba06a71c23
   sendMessage1 ::
     DataTypes.Message
     -> GHC.Types.Int
@@ -764,7 +788,7 @@ f30cd2a2b0a6b40b494076183d5242c5
   {- Arity: 1, HasNoCafRefs,
      Unfolding: (\ (s :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  (# s, GHC.Tuple.() #)) -}
-44253230511aa1ead570a4e70c674565
+07e6d21b32eca096b120e1776aaef4e8
   sendMessage3 :: DataTypes.Message
   {- Strictness: m2,
      Unfolding: (DataTypes.Error
