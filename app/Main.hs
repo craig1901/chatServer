@@ -35,7 +35,7 @@ runChat client rooms = do
                     case map words nextCmds of
                         [["CLIENT_IP:", _], [ "PORT:", _], ["CLIENT_NAME:", name]] -> do
                             addToRoom client roomName rooms
-                            sendMessage (Chat (show $ hash roomName) (clientName client) "has joined this room.") (hash roomName) rooms client
+                            sendMessage (Chat (show $ hash roomName) (clientName client) $ name ++ " has joined this room.") (hash roomName) rooms client
                 ["CHAT:", roomRef] -> do
                     nextCmds <- replicateM 3 $ hGetLine (clientHandle client)
                     case map words nextCmds of
@@ -72,7 +72,7 @@ runClient hdl n rooms = do
                     [["CLIENT_IP:", _], [ "PORT:", _], ["CLIENT_NAME:", name]] -> do
                         client <- newClient name n hdl
                         addToRoom client roomName rooms
-                        sendMessage (Chat (show $ hash roomName) (clientName client) "has joined this room.") (hash roomName) rooms client
+                        sendMessage (Chat (show $ hash roomName) (clientName client)  $ name ++ " has joined this room.") (hash roomName) rooms client
                         runChat client rooms
                     _ -> do
                         hPutStr hdl "Try again.\n" >> loop
