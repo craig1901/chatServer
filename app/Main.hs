@@ -24,7 +24,7 @@ runChat client rooms = do
         loop
 
     sendMsg
-    killThread recv
+    -- killThread recv
     where
         sendMsg = forever $ do
             cmd <- hGetLine (clientHandle client)
@@ -37,8 +37,10 @@ runChat client rooms = do
                 ["CHAT:", roomRef] -> do
                     nextCmds <- replicateM 3 $ hGetLine (clientHandle client)
                     case map words nextCmds of
-                        [["JOIN_ID:", cId], ["CLIENT_NAME:", name], ("MESSAGE:": msg), []] -> do
+                        [["JOIN_ID:", cId], ["CLIENT_NAME:", name], ("MESSAGE:":msg)] -> do
+                            print msg
                             sendMessage (Chat roomRef name (unwords msg)) (read roomRef :: Int) rooms client
+                        _ -> do hPutStr (clientHandle client) "nope\n\n" >> sendMsg
                 ["LEAVE_CHATROOM:", roomRef] -> do
                     nextCmds <- replicateM 2 $ hGetLine (clientHandle client)
                     case map words nextCmds of
@@ -70,7 +72,6 @@ runClient hdl n rooms = do
                         addToRoom client roomName rooms
                         -- TODO: Broadcast Message --
                         runChat client rooms
-                        hClose hdl
                     _ -> do
                         hPutStr hdl "Try again.\n" >> loop
             _ -> do
@@ -83,7 +84,7 @@ handleConnections sock msgNum chatRooms = do
     print "New client connection"
     hdl <- socketToHandle connection ReadWriteMode
     hSetBuffering hdl NoBuffering
-    forkFinally (runClient hdl msgNum chatRooms) (\_ -> do print "Client disconnected."; hClose hdl)
+    forkIO (runClient hdl msgNum chatRooms)
     handleConnections sock (msgNum + 1) chatRooms
 
 
