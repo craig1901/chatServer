@@ -69,9 +69,12 @@ runClient hdl n rooms = do
             ["HELO", base] -> do
                 print "helo base caught!"
                 hPutStr hdl response
+                threadDelay 1000
                 loop
                 where
-                    response = "HELO " ++ base ++ "\nIP:134.226.44.50" ++ "\nPort:8080" ++"\nStudentID:14312495"
+                    response = "HELO " ++ base ++ "\nIP:134.226.44.50" ++ "\nPort:8080" ++"\nStudentID:14312495\n"
+            ["KILL_SERVICE"] -> do
+                hClose hdl
 
             ["JOIN_CHATROOM:", roomName] -> do
                 nextCmds <- replicateM 3 $ hGetLine hdl
@@ -87,27 +90,9 @@ runClient hdl n rooms = do
                 hPutStr hdl "Please join a chat room 1st!\n" >> loop
 
 
-defaultService :: Socket -> IO ()
-defaultService sock = do
-    print "here we are!"
-    loop
-    where
-        loop = do
-            print "looping"
-            hdl <- socketToHandle sock ReadWriteMode
-            hSetBuffering hdl NoBuffering
-            msg <- hGetLine hdl
-            case words msg of
-                ["HELO", base] -> do
-                    hPutStr hdl response
-                    print response >> loop
-                    where response = "HELO " ++ base ++ "\nIP:134.226.44.50" ++ "\nPort:8080" ++"\nStudentID:14312495"
-                _ -> loop
-
 handleConnections :: Socket -> Int -> ChatList -> IO ()
 handleConnections sock msgNum chatRooms = do
     (connection, addr) <- accept sock
-    forkFinally (defaultService connection) (\_ -> print "done this.")
     print "New client connection"
     hdl <- socketToHandle connection ReadWriteMode
     hSetBuffering hdl NoBuffering
