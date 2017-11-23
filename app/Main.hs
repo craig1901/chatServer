@@ -87,7 +87,7 @@ defaultService (sock, addr) = do
     where
         loop = do
             m <- recv sock 4096
-            print "m recieved"
+            print m
             case words m of
                 ["HELO", base] -> do
                     sendTo sock response addr
