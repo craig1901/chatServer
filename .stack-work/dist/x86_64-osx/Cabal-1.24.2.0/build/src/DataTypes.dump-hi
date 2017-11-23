@@ -1,10 +1,10 @@
 
 ==================== FINAL INTERFACE ====================
-2017-11-23 13:12:14.623445 UTC
+2017-11-23 13:22:12.912736 UTC
 
 interface chatServer-0.1.0.0-CKiPEewL8xJAxGM0oTBXAz:DataTypes 8002
-  interface hash: be1dafb5665ee22f1e0fd79a97b1ca2d
-  ABI hash: 012f642e83c9dbc9da2e80f690149886
+  interface hash: 9908d363c9a6fbf3157c4b2cc78ddd1f
+  ABI hash: 4caaaf005d8d71f8810e54a6c34f8166
   export-list hash: b7ad0ddab0b454f818f1bc24aa017e57
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: f6624f22fcdd76ed0ac6625466e2d712
@@ -209,7 +209,7 @@ ef5d58e6b3eca6624de1663a406441db
     -> Data.Map.Base.Map GHC.Types.Int a1
     -> Data.Map.Base.Map GHC.Types.Int a1
   {- Arity: 2, Strictness: <L,U><S,1*U>, Inline: [0] -}
-56942c34500ce78255ec3c575b5737fe
+beb32d53d4860412df5f5c25fde70bfa
   $waddToRoom ::
     DataTypes.Client
     -> GHC.Base.String
@@ -218,7 +218,7 @@ ef5d58e6b3eca6624de1663a406441db
          (Data.Map.Base.Map GHC.Types.Int DataTypes.ChatRoom)
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
-  {- Arity: 4, Strictness: <L,U(U,U(U),U,U(U,U))><S,U><S,U><S,U>,
+  {- Arity: 4, Strictness: <L,U(U,U(U),U,U)><S,U><S,U><S,U>,
      Inline: [0] -}
 5d5a55356af2c66b0ca37de3074b4d2b
   $whandleMsgTypes ::
@@ -298,12 +298,11 @@ b54f068ce2ea0dada18a5f8aeee5f3be
     = Chat GHC.Base.String GHC.Base.String GHC.Base.String
     | Error GHC.Base.String GHC.Base.String
     | Broadcast GHC.Base.String GHC.Base.String
-1339389255c44ffac9a9ef16564d1273
+07e0e3f192fb50e3b507ee912888472c
   addToRoom ::
     DataTypes.Client
     -> GHC.Base.String -> DataTypes.ChatList -> GHC.Types.IO ()
-  {- Arity: 4,
-     Strictness: <L,U(U,U(U),U,U(U,U))><S,U><S(S),U(U)><S,U>,
+  {- Arity: 4, Strictness: <L,U(U,U(U),U,U)><S,U><S(S),U(U)><S,U>,
      Unfolding: InlineRule (0, True, True)
                 DataTypes.addToRoom1
                   `cast`
@@ -311,15 +310,14 @@ b54f068ce2ea0dada18a5f8aeee5f3be
                  ->_R <GHC.Base.String>_R
                  ->_R <DataTypes.ChatList>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-827ad7160c179c038bac01a1324d8ef3
+5134c1b1b93d3cda838a30b1a0cdcd26
   addToRoom1 ::
     DataTypes.Client
     -> GHC.Base.String
     -> DataTypes.ChatList
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
-  {- Arity: 4,
-     Strictness: <L,U(U,U(U),U,U(U,U))><S,U><S(S),U(U)><S,U>,
+  {- Arity: 4, Strictness: <L,U(U,U(U),U,U)><S,U><S(S),U(U)><S,U>,
      Inline: INLINE[0],
      Unfolding: InlineRule (4, True, False)
                 (\ (w :: DataTypes.Client)
