@@ -4,7 +4,7 @@ Name | Student ID
 ------------ | -------------
 Craig Nolan | 14312495
 
-All runnable code is on restart Branch of this repository!
+All runnable code is on restart branch of this repository!
 
 **Got 64% in the tests: 
 
