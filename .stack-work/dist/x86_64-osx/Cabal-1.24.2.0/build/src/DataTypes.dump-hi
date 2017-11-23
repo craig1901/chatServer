@@ -1,10 +1,10 @@
 
 ==================== FINAL INTERFACE ====================
-2017-11-23 12:43:18.372118 UTC
+2017-11-23 13:12:14.623445 UTC
 
 interface chatServer-0.1.0.0-CKiPEewL8xJAxGM0oTBXAz:DataTypes 8002
-  interface hash: e918429ffe6b03745a80ca88645e80aa
-  ABI hash: 85d1b19e1cfe72fa34cfb87c331620d9
+  interface hash: be1dafb5665ee22f1e0fd79a97b1ca2d
+  ABI hash: 012f642e83c9dbc9da2e80f690149886
   export-list hash: b7ad0ddab0b454f818f1bc24aa017e57
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: f6624f22fcdd76ed0ac6625466e2d712
@@ -220,7 +220,7 @@ ef5d58e6b3eca6624de1663a406441db
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
   {- Arity: 4, Strictness: <L,U(U,U(U),U,U(U,U))><S,U><S,U><S,U>,
      Inline: [0] -}
-e2243573c0e7a7582e651f3b499ae80d
+5d5a55356af2c66b0ca37de3074b4d2b
   $whandleMsgTypes ::
     DataTypes.Message
     -> GHC.IO.Handle.Types.Handle
@@ -251,7 +251,7 @@ e2243573c0e7a7582e651f3b499ae80d
                                        (GHC.Base.++
                                           @ GHC.Types.Char
                                           msg
-                                          DataTypes.handleMsgTypes2))))))
+                                          DataTypes.handleMsgTypes3))))))
                         GHC.Types.False
                         w1
                    DataTypes.Error num msg
@@ -265,18 +265,13 @@ e2243573c0e7a7582e651f3b499ae80d
                               (GHC.CString.unpackAppendCString#
                                  "\n\
                                  \MEssage: "#
-                                 (GHC.Base.++ @ GHC.Types.Char msg DataTypes.handleMsgTypes2))))
+                                 (GHC.Base.++ @ GHC.Types.Char msg DataTypes.handleMsgTypes3))))
                         GHC.Types.False
                         w1
-                   DataTypes.Broadcast name msg
-                   -> GHC.IO.Handle.Text.hPutStr2
-                        ww
-                        (GHC.Base.++
-                           @ GHC.Types.Char
-                           name
-                           (GHC.Base.++ @ GHC.Types.Char msg DataTypes.handleMsgTypes2))
-                        GHC.Types.False
-                        w1 }) -}
+                   DataTypes.Broadcast ipv ipv1
+                   -> case DataTypes.handleMsgTypes2
+                      ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+                      of {} }) -}
 43979c248c80dfce5166323ffe6a607b
   $wpoly_go10 ::
     GHC.Prim.Int#
@@ -473,7 +468,7 @@ c0549a6a6ed8e102f756ee46ef084b88
     -> Data.Map.Base.Map GHC.Types.Int DataTypes.ChatRoom
     -> [[GHC.Types.Char]]
   {- Arity: 2, HasNoCafRefs, Strictness: <L,1*U><S,1*U> -}
-6e979ccea3c7c4409c904d51c231bb82
+aea714fcc188415082f2e31b4839132a
   handleMsgTypes ::
     DataTypes.Message
     -> DataTypes.Client -> DataTypes.ChatList -> GHC.Types.IO ()
@@ -485,7 +480,7 @@ c0549a6a6ed8e102f756ee46ef084b88
                  ->_R <DataTypes.Client>_R
                  ->_R <DataTypes.ChatList>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-748977a00f13be312d49a419db516ebf
+6c681fc9ec6ff2d981b1c5b404c46e91
   handleMsgTypes1 ::
     DataTypes.Message
     -> DataTypes.Client
@@ -501,8 +496,11 @@ c0549a6a6ed8e102f756ee46ef084b88
                    (w3 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  case w1 of ww { DataTypes.Client ww1 ww2 ww3 ww4 ->
                  DataTypes.$whandleMsgTypes w ww3 w3 }) -}
-e83549d6679b5e4ca7745a9bbacceff7
-  handleMsgTypes2 :: [GHC.Types.Char]
+2fd72931c5195d5e3152020b8c69f4d6
+  handleMsgTypes2 :: GHC.Types.IO ()
+  {- Strictness: x -}
+f9f62f2a1b9b27894c5c6faa5b3ab18f
+  handleMsgTypes3 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString#
                    "\n\
                    \\n"#) -}

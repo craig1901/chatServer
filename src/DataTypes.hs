@@ -33,7 +33,6 @@ handleMsgTypes msg client rooms = do
     case msg of
         Chat roomRef name msg -> send ("CHAT: " ++ roomRef ++ "\nCLIENT_NAME: " ++ name ++ "\nMESSAGE: " ++ msg ++ "\n\n")
         Error num msg -> send ("ERROR: " ++ num ++ "\nMEssage: " ++ msg ++ "\n\n")
-        Broadcast name msg -> send (name ++ msg ++ "\n\n")
     where
         send x = hPutStr (clientHandle client) x
 
@@ -84,14 +83,14 @@ addToRoom client roomName rooms = do
             atomically $ do writeTVar rooms newMap
             print ((clientName client) ++ " joined room: " ++ (roomStr room))
             hPutStr (clientHandle client) $ "JOINED_CHATROOM: " ++ (roomStr room) ++  "\nSERVER_IP: 0.0.0.0" ++ "\nPORT: 0" ++ "\nROOM_REF: " ++ (show $ roomRef room) ++ "\nJOIN_ID: " ++ (show $ clientId client) ++ "\n\n"
-            sendMessage (Broadcast (clientName client) " has joined this room.") (roomRef room) rooms client
+            sendMessage (Chat (show $ roomRef room) (clientName client) " has joined this room.") (roomRef room) rooms client
 
         Just c -> do
             clientMap <- atomically $ do readTVar (clients c)
             let newMap = Map.insert (clientId client) client clientMap
             atomically $ do writeTVar (clients c) newMap
             hPutStr (clientHandle client) $ "JOINED_CHATROOM: " ++ (roomStr c) ++  "\nSERVER_IP: 0.0.0.0" ++ "\nPORT: 0" ++ "\nROOM_REF: " ++ (show $ roomRef c) ++ "\nJOIN_ID: " ++ (show $ clientId client) ++ "\n\n"
-            sendMessage (Broadcast (clientName client) " has joined this room.") (roomRef c) rooms client
+            sendMessage (Chat (show $ roomRef c) (clientName client) " has joined this room.") (roomRef c) rooms client
             print "Found it!"
             print ((clientName client) ++ " joined room: " ++ (roomStr c))
             return ()
