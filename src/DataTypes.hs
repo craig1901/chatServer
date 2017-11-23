@@ -9,7 +9,7 @@ import System.IO
 
 data ChatRoom = ChatRoom {roomStr :: String, roomRef :: Int, clients :: TVar (Map Int Client)}
 data Client = Client  {clientName :: String, clientId :: Int, clientHandle :: Handle, channel :: TChan Message}
-data Message = Chat String String String | Error String String | Broadcast String String
+data Message = Chat String String String | Error String String | Broadcast String String | Response String
 type ChatList = TVar (Map Int ChatRoom)
 
 ------------------------------ Constructors ------------------------------------------------------
@@ -33,8 +33,12 @@ handleMsgTypes msg client rooms = do
     case msg of
         Chat roomRef name msg -> send ("CHAT: " ++ roomRef ++ "\nCLIENT_NAME: " ++ name ++ "\nMESSAGE: " ++ msg ++ "\n\n")
         Error num msg -> send ("ERROR: " ++ num ++ "\nMEssage: " ++ msg ++ "\n\n")
+        Response str -> send $ str
+
     where
-        send x = hPutStr (clientHandle client) x
+        send x = do
+            -- print x
+            hPutStr (clientHandle client) x
 
 sendMessage :: Message -> Int -> ChatList -> Client -> IO ()
 sendMessage msg ref rooms client = do
@@ -54,7 +58,25 @@ disconnectClient client rooms = do
     roomMap <- atomically $ do readTVar rooms
     let roomNames = Prelude.map (\room -> roomStr room) (Map.elems roomMap)
     print roomNames
-    mapM_ (\name -> removeClient (hash name) client rooms) (roomNames)
+    mapM_ (\name -> disconnectRemoveClient (hash name) client rooms) (roomNames)
+    print "client disconnected."
+
+disconnectRemoveClient :: Int -> Client -> ChatList -> IO ()
+disconnectRemoveClient roomRef client rooms = do
+    print "disconnecting client..."
+    roomMap <- atomically $ do readTVar rooms
+    let c = Map.lookup roomRef roomMap
+    case c of
+        Nothing -> do
+            atomically $ do writeTChan (channel client) (Error "200" "Chatroom doesn't exist.")
+        Just c -> do
+            let roomName = roomStr c
+            clientMap <- atomically $ do readTVar (clients c)
+            let name = clientName client
+            sendMessage (Chat (show roomRef) name $ name ++ " has left this chatroom.") roomRef rooms client
+            -- sendMessage (Response $ "LEFT_CHATROOM: " ++ (show roomRef) ++ "\nJOIN_ID: " ++ (show $ clientId client) ++ "\n") roomRef rooms client
+            let newMap = Map.delete (clientId client) clientMap
+            atomically $ do writeTVar (clients c) newMap
 
 removeClient :: Int -> Client -> ChatList -> IO ()
 removeClient roomRef client rooms = do
@@ -63,7 +85,7 @@ removeClient roomRef client rooms = do
     let c = Map.lookup roomRef roomMap
     case c of
         Nothing -> do
-            atomically $ do writeTChan (channel client) ( Error "200" "Chatroom doesn't exist.\n\n")
+            atomically $ do writeTChan (channel client) ( Error "200" "Chatroom doesn't exist.")
         Just c -> do
             let roomName = (roomStr c)
             clientMap <- atomically $ do readTVar (clients c)
