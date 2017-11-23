@@ -37,9 +37,9 @@ runChat client rooms = do
                             addToRoom client roomName rooms
                             sendMessage (Chat (show $ hash roomName) (clientName client) $ name ++ " has joined this room.") (hash roomName) rooms client
                 ["CHAT:", roomRef] -> do
-                    nextCmds <- replicateM 3 $ hGetLine (clientHandle client)
+                    nextCmds <- replicateM 4 $ hGetLine (clientHandle client)
                     case map words nextCmds of
-                        [["JOIN_ID:", cId], ["CLIENT_NAME:", name], ("MESSAGE:":msg)] -> do
+                        [["JOIN_ID:", cId], ["CLIENT_NAME:", name], ("MESSAGE:":msg), []] -> do
                             print msg
                             sendMessage (Chat roomRef name (unwords msg)) (read roomRef :: Int) rooms client
                         _ -> do hPutStr (clientHandle client) "nope\n\n" >> sendMsg
