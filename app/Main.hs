@@ -85,9 +85,9 @@ runClient hdl n rooms = do
                         sendMessage (Chat (show $ hash roomName) (clientName client)  $ name ++ " has joined this room.") (hash roomName) rooms client
                         runChat client rooms
                     _ -> do
-                        hPutStr hdl "ERROR_CODE: 100\nERROR_DESCRIPTION: Please enter the correct join commands." >> loop
+                        hPutStr hdl "ERROR_CODE: 100\nERROR_DESCRIPTION: Please enter the correct join commands.\n" >> loop
             _ -> do
-                hPutStr hdl "ERROR_CODE: 300\nERROR_DESCRIPTION: Please join a chatroom or enter the HELO base commands." >> loop
+                hPutStr hdl "ERROR_CODE: 300\nERROR_DESCRIPTION: Please join a chatroom or enter the HELO base commands.\n" >> loop
 
 
 handleConnections :: Socket -> Int -> ChatList -> IO ()

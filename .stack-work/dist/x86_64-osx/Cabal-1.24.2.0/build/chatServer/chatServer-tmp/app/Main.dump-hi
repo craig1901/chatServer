@@ -1,10 +1,10 @@
 
 ==================== FINAL INTERFACE ====================
-2017-11-23 16:08:20.070808 UTC
+2017-12-15 00:17:09.399837 UTC
 
 interface main@main:Main 8002
-  interface hash: 4e3d7674b6929f06ec42a928c9695fea
-  ABI hash: 28b202a62e52cbc60abd294966f93147
+  interface hash: 4b48e02c0d00f45f1c039a017e03d8fc
+  ABI hash: 3b5cd468bbbd89edb83d350baae0c8b7
   export-list hash: be11a29d5000753ff9988f1122990cd4
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: b038a7c862dabf6c0c13835664a20da0
@@ -63,6 +63,7 @@ import  -/  base-4.9.1.0:Control.Monad.Fix 1847625fb543f2f5c2510a02760c6b1a
 import  -/  base-4.9.1.0:Data.Function 7aca86bfbd92366def5f260e30cb2628
 import  -/  base-4.9.1.0:Data.OldList 27987919d8da2f92e3f472ca81f730f8
 import  -/  base-4.9.1.0:GHC.Base c4231c43c07e46080a26bf94094c7aa1
+import  -/  base-4.9.1.0:GHC.Conc.IO def2d34849634fa07308965605821da6
 import  -/  base-4.9.1.0:GHC.Conc.Sync 8d0a228e5fc4d8c110495066f4d52ea1
 import  -/  base-4.9.1.0:GHC.IO.Handle ba98a5b34d78cbf48b41fe58a3735c69
 import  -/  base-4.9.1.0:GHC.IO.Handle.Text b65719f3b262b071ab1aabeb72fc9d8b
@@ -75,7 +76,7 @@ import  -/  base-4.9.1.0:Prelude 22dd289b8469a8fa8dc81cab7b237771
 import  -/  base-4.9.1.0:System.Environment 08cb808e8e6a7821e6f8cfa76a977431
 import  -/  base-4.9.1.0:System.IO c9de64c5f5407c4cf1c52500c4d15200
 import  -/  base-4.9.1.0:Text.Read 75c59863e882ebaec4532e9465e2ee9b
-import  -/  chatServer-0.1.0.0@chatServer-0.1.0.0-CKiPEewL8xJAxGM0oTBXAz:DataTypes 0270aafdf19f790c1e07fb7a7541a7e4
+import  -/  chatServer-0.1.0.0@chatServer-0.1.0.0-CKiPEewL8xJAxGM0oTBXAz:DataTypes 3d79172e15b96b86f7a7c18bbc7ce3b6
 import  -/  containers-0.5.7.1@containers-0.5.7.1:Data.Map 0fd5c8559af8bc4b6f38b9cf9ba5a467
 import  -/  containers-0.5.7.1@containers-0.5.7.1:Data.Map.Base 8b155a212edaca6c85bcefe65a8bc505
 import  -/  ghc-prim-0.5.0.0:GHC.Types 89f8de4f08018c9177c98d979eae0e45
@@ -98,7 +99,7 @@ d6831ef04cb9301b090dfae6f7bb7ec7
   $trModule2 :: GHC.Types.TrName
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS "main"#) -}
-d85053fa9b90135179aadf2e84b60a5a
+85061ff739f579886ed705571e08f754
   $whandleConnections ::
     Foreign.C.Types.CInt
     -> Network.Socket.Types.Family
@@ -113,7 +114,7 @@ d85053fa9b90135179aadf2e84b60a5a
   {- Arity: 8,
      Strictness: <L,U(U)><S,U><L,U><L,U(U)><S,U><L,U(U)><L,U(U)><S,U>,
      Inline: [0] -}
-70cfd326fb93e85b8a2fa34096c1926e
+ba91e120d8af7a1e1116957228bde5f9
   handleConnections ::
     Network.Socket.Types.Socket
     -> GHC.Types.Int -> DataTypes.ChatList -> GHC.Types.IO ()
@@ -126,7 +127,7 @@ d85053fa9b90135179aadf2e84b60a5a
                  ->_R <GHC.Types.Int>_R
                  ->_R <DataTypes.ChatList>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-21c0abc80dbe30f0ced246370ff8cd13
+0214ad0528df2e673de07deb26a4dbaa
   handleConnections1 ::
     Network.Socket.Types.Socket
     -> GHC.Types.Int
@@ -144,12 +145,12 @@ d85053fa9b90135179aadf2e84b60a5a
                  case w of ww { Network.Socket.Types.MkSocket ww1 ww2 ww3 ww4 ww5 ->
                  case ww5 of ww6 { GHC.MVar.MVar ww7 ->
                  Main.$whandleConnections ww1 ww2 ww3 ww4 ww7 w1 w2 w3 } }) -}
-0c080bd25e3ccce532b05de526f78878
+0b24bc8ef8577cb85167da1db3cabbe8
   main :: GHC.Types.IO ()
   {- Arity: 1, Strictness: <S,U>,
      Unfolding: InlineRule (0, True, True)
                 Main.main1 `cast` (Sym (GHC.Types.N:IO[0] <()>_R)) -}
-a2dbfbd3951096db80e8069da1eed987
+9d35b4f1bbc2959a5b49bfcf18cd5cab
   main1 ::
     GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
@@ -222,7 +223,7 @@ a8b329e3a22de29ebed312afd7c8eadd
 f04d0b4862e2caf49be7de38dc690f0c
   main12 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "Starting server..."#) -}
-f9f9c0d7320f69f93db0a98bfb414eb5
+5449f7ed3b614b3334a2c7ef42394bb8
   main13 ::
     GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
@@ -236,7 +237,7 @@ f9f9c0d7320f69f93db0a98bfb414eb5
 5aff556a9b225ae8c261a83d4430ec44
   main3 :: GHC.Types.Int
   {- HasNoCafRefs, Unfolding: (GHC.Types.I# 2#) -}
-3c950fc768f94d9a4d04021c07b34a74
+d4970ec3a7bc32c38bbd195316e21db6
   main4 ::
     GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld,
@@ -279,7 +280,7 @@ a80ce3dff1c4fa1425f1808edbeced0b
                    @ GHC.Types.Char
                    GHC.Show.shows6
                    Main.main10) -}
-9e1dd875afe6ad074981a98c854eab6e
+d5f8ca78debe524443bf4bf1b38a7ae7
   runChat ::
     DataTypes.Client -> DataTypes.ChatList -> GHC.Types.IO ()
   {- Arity: 3, Strictness: <L,U(U,U(U),U,U(U,U))><L,U(U)><S,U>,
@@ -289,14 +290,14 @@ a80ce3dff1c4fa1425f1808edbeced0b
                 (<DataTypes.Client>_R
                  ->_R <DataTypes.ChatList>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-b859a8e43f2c71327191b06fe210b1a2
+c2afbba67bff94150c737ecba02654ed
   runChat1 ::
     DataTypes.Client
     -> DataTypes.ChatList
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
   {- Arity: 3, Strictness: <L,U(U,U(U),U,U(U,U))><L,U(U)><S,U> -}
-149fbc4815f25e4ae8b66cb6d3841d46
+c34f13afee3380c50ad5b0b676167afb
   runClient ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Types.Int -> DataTypes.ChatList -> GHC.Types.IO ()
@@ -308,7 +309,7 @@ b859a8e43f2c71327191b06fe210b1a2
                  ->_R <GHC.Types.Int>_R
                  ->_R <DataTypes.ChatList>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-c9cbb36ff222d2144bf8db31cad90c5e
+662c97ead17cab58d0bfed3ebcfc6ab1
   runClient1 ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Types.Int

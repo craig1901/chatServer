@@ -91,6 +91,13 @@
   (major1) == 0 && (major2) <  68 || \
   (major1) == 0 && (major2) == 68 && (minor) <= 1)
 
+/* tool pkg-config-0.29.2 */
+#define TOOL_VERSION_pkg_config "0.29.2"
+#define MIN_TOOL_VERSION_pkg_config(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  29 || \
+  (major1) == 0 && (major2) == 29 && (minor) <= 2)
+
 #define CURRENT_COMPONENT_ID "chatServer-0.1.0.0-CKiPEewL8xJAxGM0oTBXAz"
 
 #define CURRENT_PACKAGE_KEY "chatServer-0.1.0.0-CKiPEewL8xJAxGM0oTBXAz"
