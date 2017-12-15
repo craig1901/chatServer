@@ -69,6 +69,13 @@ CLIENT_NAME: [string handle to identify client user]
 
 ![Disconnecting](images_gifs/disconnect.gif)
 
+### Running on your machine
+
+1. Clone this repo `git clone https://craig1901/complexity_api`
+2. `stack build` inside the directory
+3. `bash run <port>` to set up a local server on your machine on the given post
+4. `telnet localhost <port>` to make a connection to the server and start chatting!
+
 ## Notes Regarding given test service for this Assignment 
 
 All runnable code is on restart branch of this repository!
