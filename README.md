@@ -1,8 +1,19 @@
 # Chat Server Submission
 ## Introduction
-This project was part of a TCD college assignment to create a chat server for clients to chat using a protocol to perform actions in a chatroom just as join a chatroom, send chat messages, leave chatrooms & disconnect from the server.
+This project was part of a TCD college assignment to create a chat server for clients to chat using a protocol to perform actions in a chatroom just as join a chatroom, send chat messages, leave chatrooms & disconnect from the server. Also a "HELO base" message is sent which server returns the IP of TCD Macneill machine and student number.
 
 I will discuss the protocols and showcase clients using the chat server below.
+
+## HELO base Message
+Sending the HELO base message required the user to send the following commands to the server
+
+```
+HELO text\n
+```
+
+#### User sending HELO text Message
+
+![HELO base](images_gifs/helobase.gif)
 
 ## Joining Chatrooms
 Joining a chatroom required a user to to send the following commands to the server once they connected (I implemented for TCP).
