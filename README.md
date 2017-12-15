@@ -1,8 +1,64 @@
 # Chat Server Submission
+## Introduction
+This project was part of a TCD college assignment to create a chat server for clients to chat using a protocol to perform actions in a chatroom just as join a chatroom, send chat messages, leave chatrooms & disconnect from the server.
 
-Name | Student ID
------------- | -------------
-Craig Nolan | 14312495
+I will discuss the protocols and showcase clients using the chat server below.
+
+## Joining Chatrooms
+Joining a chatroom required a user to to send the following commands to the server once they connected (I implemented for TCP).
+
+```
+JOIN_CHATROOM: [chatroom name]
+CLIENT_IP: [0 for TCP]
+PORT: [0 for TCP]
+CLIENT_NAME: [string Handle to identifier client user]
+```
+
+### User Joining
+
+![Joining a chatroom](images_gifs/join_chatroom.gif)
+
+## Sending Chat Messages
+Sending a chat message to a chatroom required a user to to send the following commands to the server once they were a member of a chatroom
+
+```
+CHAT: [ROOM_REF]
+CLIENT_NAME: [string identifying client user]
+MESSAGE: [string terminated with '\n\n']
+```
+
+### User Chatting
+
+![Sending a Chat Message](images_gifs/chat.gif) 
+
+## Leaving Chatrooms
+Leaving a chatroom required a user to to send the following commands to the server once they were a member of that chatroom
+
+```
+LEAVE_CHATROOM: [ROOM_REF]
+JOIN_ID: [integer previously provided by server on join]
+CLIENT_NAME: [string Handle to identifier client user]
+```
+
+### User Leaving a Chatroom
+
+![Leaving](images_gifs/leave_chatroom.gif)
+
+
+## Disconnecting From Server
+Disconnecting from the server required a user to to send the following commands to the server
+
+```
+DISCONNECT: [0 for TCP]
+PORT: [0 for TCP]
+CLIENT_NAME: [string handle to identify client user]
+```
+
+### User Disconnecting from Server
+
+![Disconnecting](images_gifs/disconnect.gif)
+
+## Notes Regarding given test service for this Assignment 
 
 All runnable code is on restart branch of this repository!
 
